@@ -1,5 +1,5 @@
 export const siteConfig = {
-  url: 'https://personalwebsite-v4ri.vercel.app',
+  url: 'https://zhaozhengyao.work',
   name: 'Zhao Zhengyao | AI PM Portfolio',
   author: 'Zhao Zhengyao',
   
