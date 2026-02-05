@@ -21,7 +21,10 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>
 }): Promise<Metadata> {
   const { lang } = await params
-  const dict = await getDictionary(lang as Locale)
+  const locale = siteConfig.i18n.locales.includes(lang as Locale)
+    ? (lang as Locale)
+    : siteConfig.i18n.defaultLocale
+  const dict = await getDictionary(locale)
   
   return {
     title: dict.meta.title,
@@ -42,12 +45,15 @@ export default async function RootLayout({
   params: Promise<{ lang: string }>
 }) {
   const { lang } = await params
-  const dict = await getDictionary(lang as Locale)
+  const locale = siteConfig.i18n.locales.includes(lang as Locale)
+    ? (lang as Locale)
+    : siteConfig.i18n.defaultLocale
+  const dict = await getDictionary(locale)
 
   return (
-    <html lang={lang} className={inter.variable}>
+    <html lang={locale} className={inter.variable}>
       <body className="min-h-screen bg-background antialiased">
-        <Navbar dict={dict} lang={lang} />
+        <Navbar dict={dict} lang={locale} />
         <main>{children}</main>
         <Footer dict={dict} />
       </body>
