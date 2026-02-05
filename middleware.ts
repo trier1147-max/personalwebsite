@@ -43,7 +43,8 @@ export function middleware(request: NextRequest) {
   }
 
   // Redirect to locale-prefixed path
-  const locale = getLocale(request)
+  // Force root domain to default locale
+  const locale = pathname === '/' ? defaultLocale : getLocale(request)
   request.nextUrl.pathname = `/${locale}${pathname}`
   
   return NextResponse.redirect(request.nextUrl)
