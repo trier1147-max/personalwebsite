@@ -1,4 +1,4 @@
-{
+﻿{
   "meta": {
     "title": "Zhao Zhengyao | AI Product Manager & Comm+CS Dual Degree",
     "description": "MSc Media & Communications at LSE, dual degree in Communication & Computer Science at HUST. AI PM Intern at Meituan, Product Manager Intern at Tencent QQ."
@@ -11,7 +11,7 @@
     "contact": "Contact"
   },
   "hero": {
-    "welcome": "Welcome to my corner of the web ✨",
+    "welcome": "Welcome to my corner of the web",
     "greeting": "Hey, I'm",
     "name": "Zhao Zhengyao",
     "tagline": "AI Product Manager · Comm+CS Dual Background",
@@ -36,7 +36,7 @@
         "name": "London School of Economics",
         "nameEn": "London School of Economics",
         "degree": "MSc Media and Communications (Data & Society)",
-        "period": "Sep 2025 – Dec 2026",
+        "period": "Sep 2025 - Dec 2026",
         "location": "London, UK",
         "gpa": "In Progress",
         "courses": [
@@ -51,7 +51,7 @@
         "name": "Huazhong University of Sci. & Tech.",
         "nameEn": "Huazhong University of Sci. & Tech.",
         "degree": "Communication (Network Communication) & Computer Science Dual Degree",
-        "period": "Sep 2021 – Jun 2025",
+        "period": "Sep 2021 - Jun 2025",
         "location": "Wuhan, China",
         "gpa": "GPA 89.9 & 90.3",
         "courses": ["App Innovation Design (98)", "Data Mining (97)", "Algorithm Design (90)"],
@@ -66,22 +66,22 @@
       "exp1": {
         "company": "Meituan",
         "role": "Core Local Commerce | AI Product Manager Intern",
-        "period": "May 2025 – Aug 2025",
+        "period": "May 2025 - Aug 2025",
         "location": "Beijing",
-        "description": "Incubated the “AI Co-creation Community” from 0-to-1 to address repetitive work and AI adoption barriers. Built the product end-to-end with AI coding to incubate efficiency tools and share AI knowledge across the org.",
+        "description": "Incubated the AI Co-creation Community from 0-to-1 to address repetitive work and AI adoption barriers. Built the product end-to-end with AI coding to incubate efficiency tools and share AI knowledge across the org.",
         "achievements": [
-          "User Research: Surveyed **50+** ops and product staff and identified **8** core efficiency scenarios. Led product architecture with a “Project Incubation–Info Sharing–Tool Integration” loop and delivered PRD and state diagrams.",
-          "Product Planning: Designed “Home”, “Projects”, “News”, “Tutorials”, and “Tools” modules with feature maps and state machines.",
+          "User Research: Surveyed **50+** ops and product staff and identified **8** core efficiency scenarios. Led product architecture with a Project Incubation–Info Sharing–Tool Integration loop and delivered PRD and state diagrams.",
+          "Product Planning: Designed Home, Projects, News, Tutorials, and Tools modules with feature maps and state machines.",
           "AI Full-Stack Development: Delivered core modules with AI coding (no dedicated dev team), cutting the dev cycle by **75%**.",
-          "Operations: Zero-cost launch with **41** AI efficiency projects in 2 months across **5** business lines, validating the “company-wide co-creation” model."
+          "Operations: Zero-cost launch with **41** AI efficiency projects in 2 months across **5** business lines, validating the company-wide co-creation model."
         ]
       },
       "exp2": {
         "company": "Tencent",
         "role": "QQ | Product Manager Summer Intern",
-        "period": "Apr 2024 – Jan 2025",
+        "period": "Apr 2024 - Jan 2025",
         "location": "Shenzhen",
-        "description": "Led product strategy and operations for “Yuanstore”, QQ’s IP merchandise marketplace for anime and gaming collectibles.",
+        "description": "Led product strategy and operations for Yuanstore, QQ’s IP merchandise marketplace for anime and gaming collectibles.",
         "achievements": [
           "B2B Supply Chain: Designed batch upload system and SOPs. Doubled listing efficiency, driving weekly GMV up **25%**.",
           "Customer Service: Built monitoring dashboards and alerts. Response rate improved from **40%** to **90%**, with zero complaints in the quarter.",
@@ -92,7 +92,7 @@
       "exp3": {
         "company": "Sina Weibo",
         "role": "Weibo Fashion | New Media Operations Intern",
-        "period": "Jul 2023 – Aug 2023",
+        "period": "Jul 2023 - Aug 2023",
         "location": "Beijing",
         "description": "Content creation, brand promotion, and ad placement for Weibo Fashion matrix accounts.",
         "achievements": [
@@ -108,7 +108,7 @@
     "items": {
       "proj1": {
         "name": "Federated Boosting with Differential Privacy",
-        "period": "Jun 2024 – Dec 2024",
+        "period": "Jun 2024 - Dec 2024",
         "tech": ["Python", "Federated Learning", "Differential Privacy", "Boosting"],
         "description": "Applied boosting to federated learning with differential privacy strategies, balancing privacy preservation and model performance.",
         "highlights": [

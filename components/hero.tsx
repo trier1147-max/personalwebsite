@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -68,28 +68,28 @@ const DecorativeElements = () => (
       animate={{ y: [0, 6, 0], rotate: [0, -5, 0] }}
       transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
     >
-      ✶
+      ✦
     </motion.div>
     <motion.div
       className="absolute bottom-40 left-[8%] text-lg opacity-20"
       animate={{ y: [0, -5, 0] }}
       transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
     >
-      ✷
+      ✦
     </motion.div>
     <motion.div
       className="absolute bottom-32 right-[12%] text-xl opacity-25"
       animate={{ y: [0, 8, 0], rotate: [0, 15, 0] }}
       transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
     >
-      ✳
+      ✦
     </motion.div>
     <motion.div
       className="absolute top-1/2 right-[5%] text-lg opacity-20"
       animate={{ y: [0, -6, 0] }}
       transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
     >
-      ✺
+      ✦
     </motion.div>
 
     <motion.div
@@ -208,3 +208,4 @@ export function Hero({ dict }: HeroProps) {
     </section>
   )
 }
+

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
@@ -109,3 +109,4 @@ export function Navbar({ dict, lang }: NavbarProps) {
     </motion.header>
   )
 }
+

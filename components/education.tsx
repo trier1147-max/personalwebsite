@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRef } from 'react'
 import Image from 'next/image'
@@ -90,7 +90,7 @@ export function Education({ dict }: EducationProps) {
                     <ul className="space-y-1.5">
                       {(school.highlights as string[]).map((highlight: string, i: number) => (
                         <li key={i} className="flex items-start gap-2 text-sm text-secondary">
-                          <span className="text-muted mt-1">•</span>
+                          <span className="text-muted mt-1">-</span>
                           {highlight}
                         </li>
                       ))}
@@ -115,3 +115,4 @@ export function Education({ dict }: EducationProps) {
     </section>
   )
 }
+

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRef } from 'react'
 import Image from 'next/image'
@@ -98,7 +98,7 @@ export function Experience({ dict }: ExperienceProps) {
                   <ul className="space-y-2">
                     {(item.achievements as string[]).map((achievement: string, i: number) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-secondary">
-                        <span className="text-muted mt-1">•</span>
+                        <span className="text-muted mt-1">-</span>
                         <span className="leading-relaxed">{parseAchievement(achievement)}</span>
                       </li>
                     ))}
@@ -152,3 +152,4 @@ export function Experience({ dict }: ExperienceProps) {
     </section>
   )
 }
+
