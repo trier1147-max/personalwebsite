@@ -1,0 +1,159 @@
+{
+  "meta": {
+    "title": "Zhao Zhengyao | AI Product Manager & Comm+CS Dual Degree",
+    "description": "MSc Media & Communications at LSE, dual degree in Communication & Computer Science at HUST. AI PM Intern at Meituan, Product Manager Intern at Tencent QQ."
+  },
+  "nav": {
+    "home": "Home",
+    "education": "Education",
+    "experience": "Experience",
+    "skills": "Skills",
+    "contact": "Contact"
+  },
+  "hero": {
+    "welcome": "Welcome to my corner of the web ✨",
+    "greeting": "Hey, I'm",
+    "name": "Zhao Zhengyao",
+    "tagline": "AI Product Manager · Comm+CS Dual Background",
+    "status": "MSc Candidate at London School of Economics",
+    "highlights": [
+      "LSE MSc Media & Communications (Data & Society)",
+      "HUST Communication & Computer Science Dual Degree",
+      "GPA 89.9 & 90.3"
+    ],
+    "summary": "I love turning ideas into products that people actually use. From a 0-to-1 AI co-creation community at Meituan to commercialization at Tencent's QQ, I enjoy building things that create real impact.",
+    "intro": "Currently at LSE studying media, data, and society. When not in class, I'm usually prototyping something new.",
+    "ctaText": "Scroll down to see what I've been up to.",
+    "linkSayHello": "Say hello",
+    "linkExperience": "Experience",
+    "linkEducation": "Education"
+  },
+  "education": {
+    "title": "Education",
+    "subtitle": "Interdisciplinary perspective, communication meets technology",
+    "schools": {
+      "lse": {
+        "name": "London School of Economics",
+        "nameEn": "London School of Economics",
+        "degree": "MSc Media and Communications (Data & Society)",
+        "period": "Sep 2025 – Dec 2026",
+        "location": "London, UK",
+        "gpa": "In Progress",
+        "courses": [
+          "Data & Society",
+          "Media Industries",
+          "Algorithmic Governance",
+          "Computational Communication"
+        ],
+        "highlights": ["MSc Media and Communications Programme"]
+      },
+      "hust": {
+        "name": "Huazhong University of Sci. & Tech.",
+        "nameEn": "Huazhong University of Sci. & Tech.",
+        "degree": "Communication (Network Communication) & Computer Science Dual Degree",
+        "period": "Sep 2021 – Jun 2025",
+        "location": "Wuhan, China",
+        "gpa": "GPA 89.9 & 90.3",
+        "courses": ["App Innovation Design (98)", "Data Mining (97)", "Algorithm Design (90)"],
+        "highlights": ["Outstanding Intern (Top 4%)", "Communication & Computer Science Dual Degree"]
+      }
+    }
+  },
+  "experience": {
+    "title": "Experience",
+    "subtitle": "Results-driven, data-informed approach",
+    "items": {
+      "exp1": {
+        "company": "Meituan",
+        "role": "Core Local Commerce | AI Product Manager Intern",
+        "period": "May 2025 – Aug 2025",
+        "location": "Beijing",
+        "description": "Incubated the “AI Co-creation Community” from 0-to-1 to address repetitive work and AI adoption barriers. Built the product end-to-end with AI coding to incubate efficiency tools and share AI knowledge across the org.",
+        "achievements": [
+          "User Research: Surveyed **50+** ops and product staff and identified **8** core efficiency scenarios. Led product architecture with a “Project Incubation–Info Sharing–Tool Integration” loop and delivered PRD and state diagrams.",
+          "Product Planning: Designed “Home”, “Projects”, “News”, “Tutorials”, and “Tools” modules with feature maps and state machines.",
+          "AI Full-Stack Development: Delivered core modules with AI coding (no dedicated dev team), cutting the dev cycle by **75%**.",
+          "Operations: Zero-cost launch with **41** AI efficiency projects in 2 months across **5** business lines, validating the “company-wide co-creation” model."
+        ]
+      },
+      "exp2": {
+        "company": "Tencent",
+        "role": "QQ | Product Manager Summer Intern",
+        "period": "Apr 2024 – Jan 2025",
+        "location": "Shenzhen",
+        "description": "Led product strategy and operations for “Yuanstore”, QQ’s IP merchandise marketplace for anime and gaming collectibles.",
+        "achievements": [
+          "B2B Supply Chain: Designed batch upload system and SOPs. Doubled listing efficiency, driving weekly GMV up **25%**.",
+          "Customer Service: Built monitoring dashboards and alerts. Response rate improved from **40%** to **90%**, with zero complaints in the quarter.",
+          "Commercialization: Standardized campaign templates and launched promotions, driving monthly GMV from **469K** to **811K** (**+73%**).",
+          "Data-Driven Merchandising: Built an IP heat evaluation model. Expanded direct supply **4x** and onboarded **2** top-tier suppliers."
+        ]
+      },
+      "exp3": {
+        "company": "Sina Weibo",
+        "role": "Weibo Fashion | New Media Operations Intern",
+        "period": "Jul 2023 – Aug 2023",
+        "location": "Beijing",
+        "description": "Content creation, brand promotion, and ad placement for Weibo Fashion matrix accounts.",
+        "achievements": [
+          "AI & Tooling: Optimized AI copywriting prompts and built a lightweight ad placement tool, boosting placement speed by **200%**.",
+          "Viral Growth: Launched a trend campaign that achieved **1.33B** total reads."
+        ]
+      }
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "End-to-end execution from research to deployment",
+    "items": {
+      "proj1": {
+        "name": "Federated Boosting with Differential Privacy",
+        "period": "Jun 2024 – Dec 2024",
+        "tech": ["Python", "Federated Learning", "Differential Privacy", "Boosting"],
+        "description": "Applied boosting to federated learning with differential privacy strategies, balancing privacy preservation and model performance.",
+        "highlights": [
+          "Optimized distributed ensemble training with boosting and a Gaussian noise mechanism for privacy.",
+          "Implemented knowledge distillation to reduce client–server communication cost.",
+          "Validated strong adaptability to heterogeneous data while maintaining privacy-performance balance."
+        ]
+      }
+    }
+  },
+  "skills": {
+    "title": "Skills",
+    "subtitle": "Language proficiency and technical tools",
+    "categories": {
+      "language": {
+        "name": "Languages",
+        "items": [
+          "English (Business)",
+          "IELTS 7.0",
+          "PTE 81/90",
+          "CET-6 500+",
+          "Mandarin Level 1 Grade B"
+        ]
+      },
+      "tools": {
+        "name": "Programming & Software",
+        "items": ["Figma", "Mockplus", "Excel (Expert)", "Python", "C++", "Xmind", "CapCut"]
+      }
+    }
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "Open to collaboration opportunities and industry discussions",
+    "email": "1430439311@qq.com",
+    "phone": "15731698896",
+    "location": "London / Beijing",
+    "social": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "wechat": "WeChat"
+    },
+    "cta": "Send Email"
+  },
+  "footer": {
+    "copyright": "© 2026 Zhao Zhengyao. Designed with care, crafted with passion.",
+    "builtWith": "Built with Next.js + Tailwind CSS"
+  }
+}
