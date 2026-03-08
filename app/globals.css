@@ -42,11 +42,11 @@
 
 @layer components {
   .container-custom {
-    @apply mx-auto max-w-6xl px-6 lg:px-8;
+    @apply mx-auto max-w-7xl px-6 lg:px-8;
   }
 
   .section-padding {
-    @apply py-20 md:py-28;
+    @apply py-12 md:py-14 xl:py-14;
   }
 
   /* Typography */
@@ -129,7 +129,7 @@
 
   /* Cards */
   .card {
-    @apply rounded-2xl p-6 transition-all duration-300;
+    @apply rounded-2xl p-5 transition-all duration-300;
     background: white;
     border: 1px solid var(--border);
   }

@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { siteConfig } from '@/site-config'
+import { SectionDecorations } from '@/components/section-decorations'
 import type { Dictionary } from '@/lib/dictionary'
 
 interface SkillsProps {
@@ -48,19 +49,20 @@ export function Skills({ dict }: SkillsProps) {
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="skills" className="section-padding">
-      <div className="container-custom">
+    <section id="skills" className="section-padding relative overflow-hidden">
+      <SectionDecorations />
+      <div className="container-custom relative z-10">
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
-          <motion.h2 variants={itemVariants} className="heading-2 mb-12">
+          <motion.h2 variants={itemVariants} className="heading-2 mb-6">
             {dict.skills.title}
           </motion.h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {siteConfig.skillCategories.map((categoryKey) => {
               const category = dict.skills.categories[categoryKey as keyof typeof dict.skills.categories]
               if (!category) return null
@@ -71,7 +73,7 @@ export function Skills({ dict }: SkillsProps) {
                   variants={itemVariants}
                   className="card"
                 >
-                  <h3 className="heading-3 mb-4">{category.name}</h3>
+                  <h3 className="heading-3 mb-3">{category.name}</h3>
                   <motion.div
                     className="flex flex-wrap gap-2"
                     variants={containerVariants}

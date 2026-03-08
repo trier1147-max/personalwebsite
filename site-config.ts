@@ -5,10 +5,11 @@ export const siteConfig = {
   
   // Social links
   social: {
-    github: 'https://github.com/zhaozhengyao',
+    github: 'https://github.com/trier1147-max',
     linkedin: 'https://linkedin.com/in/zhaozhengyao',
     email: '1430439311@qq.com',
     wechat: 'zhaozhengyao',
+    xiaohongshu: 'https://xhslink.com/m/6ji6daHenYm',
   },
 
   // i18n configuration
@@ -20,10 +21,10 @@ export const siteConfig = {
   // Navigation items (keys reference dictionary)
   navigation: [
     { key: 'home', href: '/' },
-    { key: 'education', href: '#education' },
     { key: 'experience', href: '#experience' },
+    { key: 'projects', href: '#projects' },
+    { key: 'education', href: '#education' },
     { key: 'skills', href: '#skills' },
-    { key: 'contact', href: '#contact' },
   ],
 
   // Education data (school IDs match dictionary keys)
@@ -52,20 +53,14 @@ export const siteConfig = {
       logo: '/images/tencent-logo.png',
       color: '#1DA1F2',
     },
-    {
-      id: 'exp3',
-      logo: '/images/weibo-logo.png',
-      color: '#E6162D',
-    },
   ],
 
-  // Projects data
+  // Projects data (order: 洋菜单 → 学术写作助手 → 小红书封面 → 联邦学习)
   projects: [
-    {
-      id: 'proj1',
-      image: '/images/project-federated.png',
-      github: null,
-    },
+    { id: 'proj1', image: '/images/project-yangmenu.png', github: null, imagePortrait: true },  // 洋菜单
+    { id: 'proj3', image: '/images/project-generator.png', github: null, imagePortrait: true }, // 小红书内容生成器
+    { id: 'proj2', image: '/images/project-writing.png', github: null, imagePortrait: false }, // AI 社科学术写作助手
+    { id: 'proj4', image: '/images/project-federated.png', github: null, imagePortrait: false }, // 联邦学习
   ],
 
   // Skill categories order (matches dictionary keys)

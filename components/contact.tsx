@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { siteConfig } from '@/site-config'
+import { SectionDecorations } from '@/components/section-decorations'
 import type { Dictionary } from '@/lib/dictionary'
 
 interface ContactProps {
@@ -36,24 +37,25 @@ export function Contact({ dict }: ContactProps) {
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="contact" className="section-padding bg-alt">
-      <div className="container-custom">
+    <section id="contact" className="section-padding bg-alt relative overflow-hidden">
+      <SectionDecorations />
+      <div className="container-custom relative z-10">
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="max-w-xl"
+          className="max-w-2xl"
         >
           <motion.h2 variants={itemVariants} className="heading-2 mb-4">
             {dict.contact.title}
           </motion.h2>
 
-          <motion.p variants={itemVariants} className="text-secondary text-lg mb-8">
+          <motion.p variants={itemVariants} className="text-secondary text-lg mb-5">
             {dict.contact.subtitle}
           </motion.p>
 
-          <motion.div variants={itemVariants} className="space-y-4 mb-6">
+          <motion.div variants={itemVariants} className="space-y-3 mb-5">
             <a
               href={`mailto:${dict.contact.email}`}
               className="flex items-center gap-3 text-lg hover:opacity-70 transition-opacity"
@@ -91,7 +93,7 @@ export function Contact({ dict }: ContactProps) {
             </p>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="flex items-center gap-4 mb-8">
+          <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4 mb-6">
             <a href={`mailto:${siteConfig.social.email}`} className="btn btn-primary">
               {dict.contact.cta}
             </a>
@@ -101,6 +103,17 @@ export function Contact({ dict }: ContactProps) {
             <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" className="btn btn-link">
               LinkedIn
             </a>
+            <a href={siteConfig.social.xiaohongshu} target="_blank" rel="noopener noreferrer" className="btn btn-link">
+              {dict.contact.social.xiaohongshu}
+            </a>
+          </motion.div>
+
+          <motion.div variants={itemVariants} className="inline-flex items-center gap-3 px-4 py-3 rounded-xl border border-border bg-background">
+            <span className="text-lg">📕</span>
+            <div>
+              <p className="text-sm font-medium text-foreground">{dict.contact.social.xiaohongshuHandle}</p>
+              <p className="text-xs text-muted">{dict.contact.social.xiaohongshuStat}</p>
+            </div>
           </motion.div>
         </motion.div>
       </div>

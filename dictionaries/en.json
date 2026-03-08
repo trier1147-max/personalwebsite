@@ -1,4 +1,4 @@
-﻿{
+{
   "meta": {
     "title": "Zhao Zhengyao | AI Product Manager & Comm+CS Dual Degree",
     "description": "MSc Media & Communications at LSE, dual degree in Communication & Computer Science at HUST. AI PM Intern at Meituan, Product Manager Intern at Tencent QQ."
@@ -7,6 +7,7 @@
     "home": "Home",
     "education": "Education",
     "experience": "Experience",
+    "projects": "Projects",
     "skills": "Skills",
     "contact": "Contact"
   },
@@ -21,8 +22,8 @@
       "HUST Communication & Computer Science Dual Degree",
       "GPA 89.9 & 90.3"
     ],
-    "summary": "I love turning ideas into products that people actually use. From a 0-to-1 AI co-creation community at Meituan to commercialization at Tencent's QQ, I enjoy building things that create real impact.",
-    "intro": "Currently at LSE studying media, data, and society. When not in class, I'm usually prototyping something new.",
+    "intro": "Dual degree in Communication and Computer Science—I bring both critical thinking from the social sciences and engineering rigor. Now focused on AI and AI products, and a heavy user of AI writing and AI coding tools.",
+    "summary": "Previously incubated a 0-to-1 AI co-creation community at Meituan and drove commercialization growth at Tencent QQ.",
     "ctaText": "Scroll down to see what I've been up to.",
     "linkSayHello": "Say hello",
     "linkExperience": "Experience",
@@ -68,12 +69,11 @@
         "role": "Core Local Commerce | AI Product Manager Intern",
         "period": "May 2025 - Aug 2025",
         "location": "Beijing",
-        "description": "Incubated the AI Co-creation Community from 0-to-1 to address repetitive work and AI adoption barriers. Built the product end-to-end with AI coding to incubate efficiency tools and share AI knowledge across the org.",
+        "description": "Incubated the \"AI Co-creation Community\" from 0-to-1 to address high AI adoption barriers and repetitive work in product and ops teams, leveraging AI-assisted full-stack development. The project aimed to establish a cross-functional collaborative development model and build an AI knowledge base to elevate org-wide AI capability.",
         "achievements": [
-          "User Research: Surveyed **50+** ops and product staff and identified **8** core efficiency scenarios. Led product architecture with a Project Incubation–Info Sharing–Tool Integration loop and delivered PRD and state diagrams.",
-          "Product Planning: Designed Home, Projects, News, Tutorials, and Tools modules with feature maps and state machines.",
-          "AI Full-Stack Development: Delivered core modules with AI coding (no dedicated dev team), cutting the dev cycle by **75%**.",
-          "Operations: Zero-cost launch with **41** AI efficiency projects in 2 months across **5** business lines, validating the company-wide co-creation model."
+          "User Research & Product Design: Surveyed **50+** product and ops staff, identified **8** high-frequency scenarios (e.g., daily reports, meeting summaries), and filtered for use cases achievable by non-engineers with AI—no dev sprint needed. Led three-module product design (Project Incubation, Knowledge Sharing, Tool Integration), delivering state diagrams and PRD with complete interaction logic.",
+          "AI-Assisted Full-Stack Development: Using AI coding tools (Cursor et al.), the product team independently completed front-end, back-end, and database deployment—bypassing traditional review and sprint cycles—compressing the MVP launch timeline from months to **20** days. Co-authored collaboration rules (tech stack constraints, Git commit standards) and ensured output quality through AI cross-review.",
+          "Cold Start & Scaled Operations: Simultaneously launched across **4** internal groups of 500 members each, amplified by company-wide promotion. Within two months, reached **2,000+** employees across **5** business lines, yielding **41** AI efficiency projects and reusable components (SSO integration, LLM API access). The Smart Daily Report Assistant—a standout project—supports user-customized Prompt configuration and saw widespread adoption after launch."
         ]
       },
       "exp2": {
@@ -81,23 +81,12 @@
         "role": "QQ | Product Manager Summer Intern",
         "period": "Apr 2024 - Jan 2025",
         "location": "Shenzhen",
-        "description": "Led product strategy and operations for Yuanstore, QQ’s IP merchandise marketplace for anime and gaming collectibles.",
+        "description": "Led product planning and operations for Yuanstore (次元市集), QQ’s IP merchandise marketplace for anime collectibles such as trading cards and pins.",
         "achievements": [
-          "B2B Supply Chain: Designed batch upload system and SOPs. Doubled listing efficiency, driving weekly GMV up **25%**.",
-          "Customer Service: Built monitoring dashboards and alerts. Response rate improved from **40%** to **90%**, with zero complaints in the quarter.",
-          "Commercialization: Standardized campaign templates and launched promotions, driving monthly GMV from **469K** to **811K** (**+73%**).",
-          "Data-Driven Merchandising: Built an IP heat evaluation model. Expanded direct supply **4x** and onboarded **2** top-tier suppliers."
-        ]
-      },
-      "exp3": {
-        "company": "Sina Weibo",
-        "role": "Weibo Fashion | New Media Operations Intern",
-        "period": "Jul 2023 - Aug 2023",
-        "location": "Beijing",
-        "description": "Content creation, brand promotion, and ad placement for Weibo Fashion matrix accounts.",
-        "achievements": [
-          "AI & Tooling: Optimized AI copywriting prompts and built a lightweight ad placement tool, boosting placement speed by **200%**.",
-          "Viral Growth: Launched a trend campaign that achieved **1.33B** total reads."
+          "B2B Supply Chain Overhaul: Redesigned the merchandising system to fix slow product listing. Built a batch upload feature and standardized SOPs, doubling listing efficiency (from **3** to **6** SKU sets/week, **+100%**) and directly driving weekly GMV up **25%**.",
+          "Merchandising & Catalog Expansion: Combined QQ in-app user data with external trend signals (e.g., Xiaohongshu) to design an IP heat evaluation framework for targeted high-potential IP discovery. Expanded the direct-supply catalog **4x** through procurement and B2B partnerships, resolving the platform’s core SKU gap.",
+          "Commercialization Campaigns: Built standardized campaign configuration templates (H5 templates & promo rules) to reduce ops overhead. Led multiple themed promotional campaigns, growing monthly GMV from **469K** to **811K** (**+73%**).",
+          "Customer Service System Upgrade: Designed a CS monitoring dashboard and alert system. Set KPIs including \"30s response rate\"; improved response rate from **40%** to **90%** and achieved zero complaints for the quarter."
         ]
       }
     }
@@ -105,17 +94,67 @@
   "projects": {
     "title": "Projects",
     "subtitle": "End-to-end execution from research to deployment",
+    "expand": "View details",
+    "collapse": "Collapse",
+    "statusInDev": "In development",
+    "roleLabel": "Role",
+    "viewOnGitHub": "View on GitHub",
     "items": {
       "proj1": {
-        "name": "Federated Boosting with Differential Privacy",
-        "period": "Jun 2024 - Dec 2024",
-        "tech": ["Python", "Federated Learning", "Differential Privacy", "Boosting"],
-        "description": "Applied boosting to federated learning with differential privacy strategies, balancing privacy preservation and model performance.",
+        "name": "YangMenu",
+        "oneLiner": "WeChat mini-program helping Chinese students and travelers understand overseas restaurant menus",
+        "role": "Product Design · Full-Stack Development",
+        "period": "Feb 2026 - Present",
+        "tech": ["TypeScript", "Vant Weapp", "WeChat CloudBase", "DeepSeek-VL2"],
+        "description": "Photo menu recognition → AI translation, dish explanation, flavor notes, allergen alerts. End-to-end solo build from insight to deployment; developed with Vibe Coding (Cursor + Claude Code).",
         "highlights": [
-          "Optimized distributed ensemble training with boosting and a Gaussian noise mechanism for privacy.",
-          "Implemented knowledge distillation to reduce client–server communication cost.",
-          "Validated strong adaptability to heterogeneous data while maintaining privacy-performance balance."
-        ]
+          "Core flow: photo → AI translation, dish explanation, flavor notes, allergen alerts",
+          "End-to-end solo: insight, tech selection, development, launch",
+          "Vibe Coding workflow: Cursor + Claude Code for efficient development"
+        ],
+        "status": null
+      },
+      "proj2": {
+        "name": "AI Academic Writing Assistant for Social Sciences",
+        "oneLiner": "RAG-based writing tool with private literature library, addressing citation hallucination",
+        "role": "Solo design and development",
+        "period": "",
+        "tech": ["RAG", "Vector retrieval", "LLM API"],
+        "description": "Three-panel UI (library—AI Q&A—editor). Batch literature selection and AI-guided writing; precise citation from library, enabling deep collaboration where humans handle argumentation and AI handles text execution.",
+        "highlights": [
+          "Born from real needs in social science writing; maintains rigor while boosting efficiency",
+          "Three-panel design: library, AI Q&A, editor in sync",
+          "Precise citation: humans for logic, AI for text execution"
+        ],
+        "status": "inDev"
+      },
+      "proj3": {
+        "name": "Xiaohongshu AI Content Generator",
+        "oneLiner": "A custom AI writing system for \"你的AI背包\", solving hallucination and style drift in generic AI tools",
+        "role": "Product Design · Prompt Architecture · Content Operations",
+        "period": "Feb 2026 - Present",
+        "tech": ["Prompt Engineering", "Content Operations", "SEO Optimization"],
+        "description": "While running a Xiaohongshu account, I found generic AI content suffered from three problems: fabricated personal anecdotes, inconsistent tone, and ignored platform rules. Core approach: embed quality standards into the Prompt system so AI aligns at generation time, not through post-hoc editing.",
+        "highlights": [
+          "Three-layer architecture: Anti-hallucination layer (user supplies context each time, eliminating fabrication), Style control layer (four content structure templates), Platform layer (title length limits, SEO keyword placement, mobile-friendly formatting)",
+          "Iterated from v1.0 to v2.0: data analysis of 5 posts revealed search keywords as the key traffic driver, leading to an SEO module and a 6-item post-generation checklist",
+          "Account built from zero — third post achieved **1,600+** saves and **1,000+** likes"
+        ],
+        "status": null
+      },
+      "proj4": {
+        "name": "Federated Boosting with Differential Privacy",
+        "oneLiner": "HUST undergraduate thesis — collaborative model training without centralizing user data, balancing performance and privacy",
+        "role": "Core Researcher",
+        "period": "Jun 2024",
+        "tech": ["PyTorch", "CUDA", "Ray", "TensorBoard", "NumPy"],
+        "description": "Built on Shen et al. (2022)'s Federated Functional Gradient Boosting (FFGB) algorithm, extending it with a privacy protection mechanism. Clients train weak learners via residual tracking each round; the server aggregates them into a global model. An adaptive Gaussian noise mechanism dynamically adjusts noise intensity based on loss changes to balance privacy and accuracy.",
+        "highlights": [
+          "Integrated Boosting into the federated framework with an adaptive Gaussian differential privacy mechanism that tunes noise strength dynamically",
+          "Applied knowledge distillation to compress the ensemble model and reduce client–server communication overhead",
+          "Validated across multiple datasets under high data heterogeneity: significantly faster convergence than FedAvg, with strong model accuracy retained after applying differential privacy"
+        ],
+        "status": null
       }
     }
   },
@@ -148,7 +187,10 @@
     "social": {
       "github": "GitHub",
       "linkedin": "LinkedIn",
-      "wechat": "WeChat"
+      "wechat": "WeChat",
+      "xiaohongshu": "Xiaohongshu",
+      "xiaohongshuHandle": "你的AI背包",
+      "xiaohongshuStat": "3,120 likes & saves"
     },
     "cta": "Send Email"
   },

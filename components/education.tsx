@@ -1,9 +1,10 @@
-﻿'use client'
+'use client'
 
 import { useRef } from 'react'
 import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
 import { siteConfig } from '@/site-config'
+import { SectionDecorations } from '@/components/section-decorations'
 import type { Dictionary } from '@/lib/dictionary'
 
 interface EducationProps {
@@ -37,26 +38,27 @@ export function Education({ dict }: EducationProps) {
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="education" className="section-padding">
-      <div className="container-custom">
+    <section id="education" className="section-padding relative overflow-hidden">
+      <SectionDecorations />
+      <div className="container-custom relative z-10">
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
-          <motion.h2 variants={itemVariants} className="heading-2 mb-12">
+          <motion.h2 variants={itemVariants} className="heading-2 mb-6">
             {dict.education.title}
           </motion.h2>
 
-          <div className="space-y-6 max-w-3xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {siteConfig.education.map((edu) => {
               const school = dict.education.schools[edu.id as keyof typeof dict.education.schools]
               if (!school) return null
 
               return (
                 <motion.div key={edu.id} variants={itemVariants} className="card">
-                  <div className="flex gap-4 mb-4">
+                    <div className="flex gap-4 mb-3">
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden flex-shrink-0 bg-background-alt flex items-center justify-center">
                       <Image
                         src={edu.logo}
@@ -79,8 +81,8 @@ export function Education({ dict }: EducationProps) {
                     </div>
                   </div>
 
-                  <div className="ml-15 pl-15">
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted mb-4">
+                  <div className="ml-16">
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted mb-3">
                       <span>{school.location}</span>
                       <span>
                         GPA: <span className="highlight">{school.gpa}</span>
@@ -96,7 +98,7 @@ export function Education({ dict }: EducationProps) {
                       ))}
                     </ul>
 
-                    <div className="mt-4 pt-4 border-t border-border">
+                    <div className="mt-3 pt-3 border-t border-border">
                       <div className="flex flex-wrap gap-2">
                         {(school.courses as string[]).slice(0, 4).map((course: string, i: number) => (
                           <span key={i} className="tag text-xs">

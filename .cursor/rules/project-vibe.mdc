@@ -1,0 +1,21 @@
+---
+description: 个人网站项目风格与规范，保持 vibe 一致
+alwaysApply: true
+---
+
+# Project Vibe
+
+这是赵政尧的个人作品集网站，风格为**暖色、简洁、有温度**。
+
+## 设计原则
+- 色彩：暖白背景 (#FFFDF9)，低对比，用 CSS 变量
+- 动效：Framer Motion，stagger 入场，ease [0.25, 0.4, 0.25, 1]
+- 组件：用 globals.css 中的 `.card` `.tag` `.btn-primary` 等
+
+## 规范
+- 文案通过 `dict` 传递，不硬编码；新增文案需更新 zh.json + en.json
+- 新 section 用 `useInView` 触发入场动画
+- 配置（导航、教育、经历）在 site-config.ts
+
+## 参考
+完整索引见 `.cursor/PROJECT_INDEX.md`，vibe coding 时可用 `@.cursor/PROJECT_INDEX.md` 引入上下文。

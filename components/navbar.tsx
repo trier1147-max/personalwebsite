@@ -1,8 +1,8 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { siteConfig, type Locale } from '@/site-config'
 import type { Dictionary } from '@/lib/dictionary'
 
@@ -14,6 +14,7 @@ interface NavbarProps {
 export function Navbar({ dict, lang }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState<string | null>(null)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const navItems = useMemo(() => siteConfig.navigation, [])
 
   useEffect(() => {
@@ -58,6 +59,14 @@ export function Navbar({ dict, lang }: NavbarProps) {
     return () => observer.disconnect()
   }, [navItems])
 
+  // Close mobile menu on scroll
+  useEffect(() => {
+    if (!mobileOpen) return
+    const handleScroll = () => setMobileOpen(false)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [mobileOpen])
+
   const otherLang = lang === 'zh' ? 'en' : 'zh'
 
   return (
@@ -77,7 +86,7 @@ export function Navbar({ dict, lang }: NavbarProps) {
             {dict.hero.name}
           </Link>
 
-          {/* Navigation Links */}
+          {/* Desktop Navigation Links */}
           <div className="flex items-center gap-6">
             {navItems.map((item) => {
               const label = dict.nav[item.key as keyof typeof dict.nav]
@@ -103,9 +112,62 @@ export function Navbar({ dict, lang }: NavbarProps) {
             >
               {otherLang === 'zh' ? '中文' : 'EN'}
             </Link>
+
+            {/* Mobile Hamburger */}
+            <button
+              type="button"
+              className="sm:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5"
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-label="Toggle menu"
+            >
+              <span
+                className={`block h-[1.5px] w-5 bg-current transition-all duration-300 origin-center ${mobileOpen ? 'rotate-45 translate-y-[4.5px]' : ''}`}
+              />
+              <span
+                className={`block h-[1.5px] w-5 bg-current transition-all duration-300 ${mobileOpen ? 'opacity-0' : ''}`}
+              />
+              <span
+                className={`block h-[1.5px] w-5 bg-current transition-all duration-300 origin-center ${mobileOpen ? '-rotate-45 -translate-y-[4.5px]' : ''}`}
+              />
+            </button>
           </div>
         </div>
       </nav>
+
+      {/* Mobile Menu Dropdown */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="sm:hidden border-t border-border"
+            style={{ background: 'rgba(255, 253, 249, 0.97)', backdropFilter: 'blur(12px)' }}
+          >
+            <div className="container-custom py-3 flex flex-col gap-1">
+              {navItems.map((item) => {
+                const label = dict.nav[item.key as keyof typeof dict.nav]
+                const isAnchor = item.href.startsWith('#')
+                const href = item.href === '/' ? `/${lang}` : `/${lang}${item.href}`
+                const isActive = isAnchor && activeSection === item.href.replace('#', '')
+
+                return (
+                  <Link
+                    key={item.key}
+                    href={href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`py-2 text-sm transition-colors ${isActive ? 'text-foreground font-medium' : 'text-muted hover:text-foreground'}`}
+                  >
+                    {label}
+                  </Link>
+                )
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   )
 }

@@ -1,6 +1,6 @@
 import { getDictionary } from '@/lib/dictionary'
 import { siteConfig, type Locale } from '@/site-config'
-import { Hero, Education, Experience, Skills, Contact } from '@/components'
+import { Hero, Education, Experience, Projects, Skills } from '@/components'
 
 interface PageProps {
   params: Promise<{ lang: string }>
@@ -16,10 +16,10 @@ export default async function HomePage({ params }: PageProps) {
   return (
     <>
       <Hero dict={dict} />
-      <Education dict={dict} />
       <Experience dict={dict} />
+      <Projects dict={dict} />
+      <Education dict={dict} />
       <Skills dict={dict} />
-      <Contact dict={dict} />
     </>
   )
 }
