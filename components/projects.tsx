@@ -97,6 +97,8 @@ function ProjectContent({
   roleLabel,
   github,
   githubLabel,
+  live,
+  liveLabel,
 }: {
   item: { name: string; status: string | null; oneLiner: string; role: string; period?: string; tech: string[]; description: string; highlights: string[] }
   hasStatus: boolean
@@ -104,6 +106,8 @@ function ProjectContent({
   roleLabel: string
   github: string | null
   githubLabel: string
+  live: string | null
+  liveLabel: string
 }) {
   return (
     <div className="flex-1 min-w-0">
@@ -137,11 +141,18 @@ function ProjectContent({
         ))}
       </ul>
 
-      {github && (
-        <a href={github} target="_blank" rel="noopener noreferrer" className="btn btn-link mt-2 inline-block">
-          {githubLabel} →
-        </a>
-      )}
+      <div className="flex flex-wrap gap-3 mt-2">
+        {github && (
+          <a href={github} target="_blank" rel="noopener noreferrer" className="btn btn-link inline-block">
+            {githubLabel} →
+          </a>
+        )}
+        {live && (
+          <a href={live} target="_blank" rel="noopener noreferrer" className="btn btn-link inline-block">
+            {liveLabel} →
+          </a>
+        )}
+      </div>
     </div>
   )
 }
@@ -191,6 +202,8 @@ export function Projects({ dict }: ProjectsProps) {
                         roleLabel={dict.projects.roleLabel}
                         github={project.github}
                         githubLabel={dict.projects.viewOnGitHub}
+                        live={project.live ?? null}
+                        liveLabel={dict.projects.viewLive}
                       />
                     </div>
                   </motion.article>
@@ -218,6 +231,8 @@ export function Projects({ dict }: ProjectsProps) {
                     roleLabel={dict.projects.roleLabel}
                     github={project.github}
                     githubLabel={dict.projects.viewOnGitHub}
+                    live={project.live ?? null}
+                    liveLabel={dict.projects.viewLive}
                   />
                 </motion.article>
               )

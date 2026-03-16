@@ -99,6 +99,7 @@
     "statusInDev": "In development",
     "roleLabel": "Role",
     "viewOnGitHub": "View on GitHub",
+    "viewLive": "Try it online",
     "items": {
       "proj1": {
         "name": "YangMenu",

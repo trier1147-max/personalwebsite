@@ -93,6 +93,7 @@
     "statusInDev": "开发中",
     "roleLabel": "我的角色",
     "viewOnGitHub": "在 GitHub 查看",
+    "viewLive": "在线体验",
     "items": {
       "proj1": {
         "name": "洋菜单（YangMenu）",
