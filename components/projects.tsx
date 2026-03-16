@@ -111,8 +111,15 @@ function ProjectContent({
 }) {
   return (
     <div className="flex-1 min-w-0">
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <h3 className="heading-3">{item.name}</h3>
+      <div className="flex items-start justify-between gap-2 mb-2 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
+          <h3 className="heading-3">{item.name}</h3>
+          {live && (
+            <a href={live} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-blue-600 hover:text-blue-500 underline underline-offset-4 decoration-1 transition-colors shrink-0">
+              {liveLabel} →
+            </a>
+          )}
+        </div>
         {hasStatus && (
           <span className="tag text-xs bg-amber-100/80 text-amber-800 shrink-0">{statusLabel}</span>
         )}
@@ -141,18 +148,11 @@ function ProjectContent({
         ))}
       </ul>
 
-      <div className="flex flex-wrap gap-3 mt-2">
-        {github && (
-          <a href={github} target="_blank" rel="noopener noreferrer" className="btn btn-link inline-block">
-            {githubLabel} →
-          </a>
-        )}
-        {live && (
-          <a href={live} target="_blank" rel="noopener noreferrer" className="btn btn-link inline-block">
-            {liveLabel} →
-          </a>
-        )}
-      </div>
+      {github && (
+        <a href={github} target="_blank" rel="noopener noreferrer" className="btn btn-link mt-2 inline-block">
+          {githubLabel} →
+        </a>
+      )}
     </div>
   )
 }
