@@ -10,12 +10,6 @@ const GitHubIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
-const LinkedInIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-  </svg>
-)
-
 const XiaohongshuIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
     <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.6 5.4h-1.36v-.92h-1.04v.92H11.8v.96h1.4v.52H11.8v.96h1.4v2.56h-1.56v.96h1.56v1.04h1.04v-1.04H15.8v-.96h-1.56V9.84H15.8v-.96h-1.4v-.52H15.8v-.96zm-4.72 5.52c-.28.56-.72 1.04-1.32 1.36l.6.84c.52-.32.96-.72 1.28-1.2v3.48H12.5v-5.96h-1.04v1.28c-.16-.24-.28-.52-.32-.8h-1.04c.08.56.28 1.04.56 1.44-.36.2-.76.32-1.2.36l.28.96c.6-.08 1.12-.28 1.56-.56l.56.8z" />
@@ -156,24 +150,6 @@ export function Hero({ dict }: HeroProps) {
               {dict.hero.name} · {dict.hero.tagline}
             </motion.p>
 
-            <motion.div variants={itemVariants} className="flex items-center gap-2 text-muted mb-3">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              <span className="text-sm">{dict.contact.location}</span>
-            </motion.div>
-
             <motion.h1 variants={itemVariants} className="heading-1 mb-5 max-w-3xl">
               {dict.hero.workTitle}
             </motion.h1>
@@ -189,10 +165,6 @@ export function Hero({ dict }: HeroProps) {
                 </span>
               ))}
             </motion.div>
-
-            <motion.p variants={itemVariants} className="text-secondary mb-5">
-              {dict.hero.ctaText}
-            </motion.p>
 
             {/* Portfolio-first CTA */}
             <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-4">
@@ -214,15 +186,6 @@ export function Hero({ dict }: HeroProps) {
               >
                 <GitHubIcon className="w-4 h-4" />
                 <span className="text-sm font-medium">GitHub</span>
-              </a>
-              <a
-                href={siteConfig.social.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2 rounded-xl border border-border bg-background hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200"
-              >
-                <LinkedInIcon className="w-4 h-4 text-[#0A66C2]" />
-                <span className="text-sm font-medium">LinkedIn</span>
               </a>
               <a
                 href={siteConfig.social.xiaohongshu}

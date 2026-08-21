@@ -6,7 +6,6 @@ export const siteConfig = {
   // Social links
   social: {
     github: 'https://github.com/trier1147-max',
-    linkedin: 'https://linkedin.com/in/zhaozhengyao',
     email: '1430439311@qq.com',
     wechat: 'zhaozhengyao',
     xiaohongshu: 'https://xhslink.com/m/6ji6daHenYm',

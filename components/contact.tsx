@@ -100,9 +100,6 @@ export function Contact({ dict }: ContactProps) {
             <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer" className="btn btn-link">
               GitHub
             </a>
-            <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" className="btn btn-link">
-              LinkedIn
-            </a>
             <a href={siteConfig.social.xiaohongshu} target="_blank" rel="noopener noreferrer" className="btn btn-link">
               {dict.contact.social.xiaohongshu}
             </a>
