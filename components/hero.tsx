@@ -129,19 +129,14 @@ const DecorativeElements = () => (
 )
 
 export function Hero({ dict }: HeroProps) {
-  const featuredProjects = siteConfig.projects.slice(0, 4).map((project) => ({
-    ...project,
-    item: dict.projects.items[project.id as keyof typeof dict.projects.items],
-  }))
-
   return (
-    <section id="contact" className="min-h-[88vh] flex items-center pt-20 pb-12 relative">
+    <section id="contact" className="py-16 md:py-20 relative">
       <DecorativeElements />
 
       <div className="container-custom w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+        <div className="max-w-4xl">
           <motion.div
-            className="order-2 lg:order-1 lg:col-span-7"
+            className="w-full"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -210,45 +205,6 @@ export function Hero({ dict }: HeroProps) {
 
           </motion.div>
 
-          <motion.div
-            className="order-1 lg:order-2 lg:col-span-5"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div variants={itemVariants} className="card p-5 sm:p-6">
-              <div className="flex items-center justify-between gap-4 mb-4">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-muted mb-1">{dict.hero.featuredLabel}</p>
-                  <h2 className="heading-3">{dict.projects.title}</h2>
-                </div>
-                <a href="#projects" className="text-sm highlight hover:opacity-70 transition-opacity">
-                  {dict.hero.viewAll} →
-                </a>
-              </div>
-
-              <div className="divide-y divide-border">
-                {featuredProjects.map(({ id, live, item }, index) => (
-                  <a
-                    key={id}
-                    href="#projects"
-                    className="group flex gap-3 py-4 first:pt-1 last:pb-1"
-                  >
-                    <span className="text-xs text-muted font-medium pt-1">0{index + 1}</span>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-foreground group-hover:text-blue-700 transition-colors">
-                          {item.name}
-                        </h3>
-                        {live && <span className="tag text-[11px]">{dict.projects.viewLive}</span>}
-                      </div>
-                      <p className="text-sm text-secondary leading-relaxed line-clamp-2">{item.oneLiner}</p>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
         </div>
       </div>
     </section>
