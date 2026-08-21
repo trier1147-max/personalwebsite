@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Zhao Zhengyao | AI Product Manager & Comm+CS Dual Degree",
-    "description": "MSc Media & Communications at LSE, dual degree in Communication & Computer Science at HUST. AI PM Intern at Meituan, Product Manager Intern at Tencent QQ."
+    "description": "MSc Data & Communications at LSE, dual degree in Computer Science & Communication at HUST. AI PM Intern at StepFun and Meituan, Product Manager Intern at Tencent QQ."
   },
   "nav": {
     "home": "Home",
@@ -16,15 +16,19 @@
     "greeting": "Hey, I'm",
     "name": "Zhao Zhengyao",
     "tagline": "AI Product Manager · Comm+CS Dual Background",
+    "workTitle": "I use AI Coding to turn product ideas into working experiences",
+    "featuredLabel": "Selected Work",
+    "viewAll": "View all",
     "status": "MSc Candidate at London School of Economics",
     "highlights": [
-      "LSE MSc Media & Communications (Data & Society)",
+      "LSE MSc Data & Communications",
       "HUST Communication & Computer Science Dual Degree",
       "GPA 89.9 & 90.3"
     ],
-    "intro": "Dual degree in Communication and Computer Science—I bring both critical thinking from the social sciences and engineering rigor. Now focused on AI and AI products, and a heavy user of AI writing and AI coding tools.",
-    "summary": "Previously incubated a 0-to-1 AI co-creation community at Meituan and drove commercialization growth at Tencent QQ.",
-    "ctaText": "Scroll down to see what I've been up to.",
+    "intro": "I am pursuing an MSc in Data and Communications at LSE and focusing on AI product management. I have independently built Agent products, an expert data-authoring platform, an enterprise AI community, and a job-search tool with Cursor and Claude Code.",
+    "summary": "At StepFun, I worked on Working Agent and Step Expert; at Meituan, I built an AI co-creation community from 0 to 1; at Tencent QQ, I drove commercialization growth.",
+    "ctaText": "Start with the work, then explore the experience and thinking behind it.",
+    "projectCta": "View my work",
     "linkSayHello": "Say hello",
     "linkExperience": "Experience",
     "linkEducation": "Education"
@@ -36,16 +40,11 @@
       "lse": {
         "name": "London School of Economics",
         "nameEn": "London School of Economics",
-        "degree": "MSc Media and Communications (Data & Society)",
+        "degree": "MSc Data and Communications",
         "period": "Sep 2025 - Dec 2026",
         "location": "London, UK",
         "gpa": "In Progress",
-        "courses": [
-          "Data & Society",
-          "Media Industries",
-          "Algorithmic Governance",
-          "Computational Communication"
-        ],
+        "courses": ["Data & Society", "AI and Data Science", "Computational Communication"],
         "highlights": ["MSc Media and Communications Programme"]
       },
       "hust": {
@@ -54,9 +53,9 @@
         "degree": "Communication (Network Communication) & Computer Science Dual Degree",
         "period": "Sep 2021 - Jun 2025",
         "location": "Wuhan, China",
-        "gpa": "GPA 89.9 & 90.3",
-        "courses": ["App Innovation Design (98)", "Data Mining (97)", "Algorithm Design (90)"],
-        "highlights": ["Outstanding Intern (Top 4%)", "Communication & Computer Science Dual Degree"]
+        "gpa": "Average 89.9 & 90.3",
+        "courses": ["App Innovation Design (98)", "AI and Data Science (90)", "Data Mining (97)", "Algorithm Design (90)"],
+        "highlights": ["Communication & Computer Science Dual Degree"]
       }
     }
   },
@@ -66,14 +65,26 @@
     "items": {
       "exp1": {
         "company": "Meituan",
-        "role": "Core Local Commerce | AI Product Manager Intern",
+        "role": "AI Product Manager Intern",
         "period": "May 2025 - Aug 2025",
         "location": "Beijing",
-        "description": "Incubated the \"AI Co-creation Community\" from 0-to-1 to address high AI adoption barriers and repetitive work in product and ops teams, leveraging AI-assisted full-stack development. The project aimed to establish a cross-functional collaborative development model and build an AI knowledge base to elevate org-wide AI capability.",
+        "description": "Built the \"AI Co-creation Community\" from 0 to 1 to lower the barrier to AI adoption, completing product design, full-stack development, and MVP delivery in 30 days.",
         "achievements": [
-          "User Research & Product Design: Surveyed **50+** product and ops staff, identified **8** high-frequency scenarios (e.g., daily reports, meeting summaries), and filtered for use cases achievable by non-engineers with AI—no dev sprint needed. Led three-module product design (Project Incubation, Knowledge Sharing, Tool Integration), delivering state diagrams and PRD with complete interaction logic.",
-          "AI-Assisted Full-Stack Development: Using AI coding tools (Cursor et al.), the product team independently completed front-end, back-end, and database deployment—bypassing traditional review and sprint cycles—compressing the MVP launch timeline from months to **20** days. Co-authored collaboration rules (tech stack constraints, Git commit standards) and ensured output quality through AI cross-review.",
-          "Cold Start & Scaled Operations: Simultaneously launched across **4** internal groups of 500 members each, amplified by company-wide promotion. Within two months, reached **2,000+** employees across **5** business lines, yielding **41** AI efficiency projects and reusable components (SSO integration, LLM API access). The Smart Daily Report Assistant—a standout project—supports user-customized Prompt configuration and saw widespread adoption after launch."
+          "User Research & Product Design: Interviewed **30+** product, operations, engineering, and functional employees, identified high-frequency productivity scenarios, and led the Project Co-creation, Asset Repository, and Knowledge Sharing modules.",
+          "AI-Assisted Full-Stack Development: Used Cursor to independently complete front-end, back-end, and database deployment—bypassing traditional review and sprint cycles—and compressed the MVP timeline from months to **30** days.",
+          "Cold Start & Scaled Operations: Reached **2,000** internal users, converted **200** registrations, and incubated **41** projects, while packaging reusable Prompt templates and AI Coding practices."
+        ]
+      },
+      "exp3": {
+        "company": "StepFun",
+        "role": "AI Product Manager Intern",
+        "period": "Jun 2026 - Present",
+        "location": "",
+        "description": "Owned 0-to-1 product design and prototyping for Working Agent and Step Expert, covering a consumer delivery Agent and an internal expert data-authoring platform.",
+        "achievements": [
+          "Working Agent: Designed an Agent for students, professionals, and creators that directly produces PPTs, spreadsheets, and documents; independently built an interactive desktop prototype and defined an MVP-to-segmented-growth path.",
+          "Skills library: Designed a preset-template-to-personal-skill workflow to help users save and reuse capabilities over time.",
+          "Step Expert: Turned abstract annotation workflows into a visual Select Skill → AI Generate → Expert Review flow; used AI Coding to build a high-fidelity prototype and detailed handoff documentation, driving the product to development launch."
         ]
       },
       "exp2": {
@@ -92,8 +103,8 @@
     }
   },
   "projects": {
-    "title": "Projects",
-    "subtitle": "End-to-end execution from research to deployment",
+    "title": "Selected Work",
+    "subtitle": "AI product work that can be experienced, inspected, and discussed",
     "expand": "View details",
     "collapse": "Collapse",
     "statusInDev": "In development",
@@ -116,18 +127,18 @@
         "status": null
       },
       "proj2": {
-        "name": "AI Academic Writing Assistant for Social Sciences",
-        "oneLiner": "RAG-based writing tool with private literature library, addressing citation hallucination",
-        "role": "Solo design and development",
-        "period": "",
-        "tech": ["RAG", "Vector retrieval", "LLM API"],
-        "description": "Three-panel UI (library—AI Q&A—editor). Batch literature selection and AI-guided writing; precise citation from library, enabling deep collaboration where humans handle argumentation and AI handles text execution.",
+        "name": "Molly · Job Search Companion",
+        "oneLiner": "Desktop Agent for student job seekers, covering job search, interview practice, resume building, and project training",
+        "role": "Product Definition · UI Prototyping · Desktop Full-Stack Development",
+        "period": "Jun 2026 - Present",
+        "tech": ["Desktop Agent", "AI Coding", "Claude Code", "Cursor"],
+        "description": "Productized mentor-led project training and resume-ready delivery into an AI workflow, combining a role-training bootcamp mechanism with job-search skills across the path from preparation to offer.",
         "highlights": [
-          "Born from real needs in social science writing; maintains rigor while boosting efficiency",
-          "Three-panel design: library, AI Q&A, editor in sync",
-          "Precise citation: humans for logic, AI for text execution"
+          "Product definition: combines real project training with job-search execution to create verifiable portfolios",
+          "Product architecture: role workflow training plus skills for search, interview practice, mock interviews, and review",
+          "Solo build: designed the UI prototype and developed the desktop product with AI Coding"
         ],
-        "status": "inDev"
+        "status": null
       },
       "proj3": {
         "name": "Xiaohongshu AI Content Generator",

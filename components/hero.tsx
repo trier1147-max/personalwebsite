@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { siteConfig } from '@/site-config'
 import type { Dictionary } from '@/lib/dictionary'
@@ -46,29 +45,6 @@ const itemVariants = {
     transition: {
       duration: 0.4,
       ease: [0.25, 0.4, 0.25, 1],
-    },
-  },
-}
-
-const photoVariants = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 0.4, 0.25, 1],
-    },
-  },
-}
-
-const floatingVariants = {
-  animate: {
-    y: [-6, 6, -6],
-    transition: {
-      duration: 5,
-      ease: 'easeInOut',
-      repeat: Infinity,
     },
   },
 }
@@ -159,8 +135,13 @@ const DecorativeElements = () => (
 )
 
 export function Hero({ dict }: HeroProps) {
+  const featuredProjects = siteConfig.projects.slice(0, 4).map((project) => ({
+    ...project,
+    item: dict.projects.items[project.id as keyof typeof dict.projects.items],
+  }))
+
   return (
-    <section id="contact" className="min-h-screen flex items-center pt-16 relative">
+    <section id="contact" className="min-h-[88vh] flex items-center pt-20 pb-12 relative">
       <DecorativeElements />
 
       <div className="container-custom w-full relative z-10">
@@ -172,7 +153,7 @@ export function Hero({ dict }: HeroProps) {
             animate="visible"
           >
             <motion.p variants={itemVariants} className="text-base text-muted mb-3 font-medium">
-              {dict.hero.welcome}
+              {dict.hero.name} · {dict.hero.tagline}
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex items-center gap-2 text-muted mb-3">
@@ -193,18 +174,12 @@ export function Hero({ dict }: HeroProps) {
               <span className="text-sm">{dict.contact.location}</span>
             </motion.div>
 
-            <motion.h1 variants={itemVariants} className="heading-1 mb-4">
-              {dict.hero.greeting}
-              <br />
-              {dict.hero.name}!
+            <motion.h1 variants={itemVariants} className="heading-1 mb-5 max-w-3xl">
+              {dict.hero.workTitle}
             </motion.h1>
 
             <motion.p variants={itemVariants} className="text-lg text-secondary leading-relaxed mb-2">
               {dict.hero.intro}
-            </motion.p>
-
-            <motion.p variants={itemVariants} className="text-lg text-secondary leading-relaxed mb-2">
-              {dict.hero.summary}
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-wrap gap-2 mb-4">
@@ -219,9 +194,12 @@ export function Hero({ dict }: HeroProps) {
               {dict.hero.ctaText}
             </motion.p>
 
-            {/* CTA Button */}
-            <motion.div variants={itemVariants} className="mb-4">
-              <a href={`mailto:${siteConfig.social.email}`} className="btn btn-primary">
+            {/* Portfolio-first CTA */}
+            <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-4">
+              <a href="#projects" className="btn btn-primary">
+                {dict.hero.projectCta}
+              </a>
+              <a href={`mailto:${siteConfig.social.email}`} className="btn btn-link">
                 {dict.contact.cta}
               </a>
             </motion.div>
@@ -270,21 +248,41 @@ export function Hero({ dict }: HeroProps) {
           </motion.div>
 
           <motion.div
-            className="order-1 lg:order-2 lg:col-span-5 flex justify-center lg:justify-end lg:translate-x-4"
-            variants={photoVariants}
+            className="order-1 lg:order-2 lg:col-span-5"
+            variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            <motion.div className="photo-glow" variants={floatingVariants} animate="animate">
-              <div className="photo-frame w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 relative">
-                <Image
-                  src="/images/profile.png"
-                  alt="Profile photo"
-                  fill
-                  sizes="(min-width: 1024px) 40vw, 70vw"
-                  className="object-cover"
-                  priority
-                />
+            <motion.div variants={itemVariants} className="card p-5 sm:p-6">
+              <div className="flex items-center justify-between gap-4 mb-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.18em] text-muted mb-1">{dict.hero.featuredLabel}</p>
+                  <h2 className="heading-3">{dict.projects.title}</h2>
+                </div>
+                <a href="#projects" className="text-sm highlight hover:opacity-70 transition-opacity">
+                  {dict.hero.viewAll} →
+                </a>
+              </div>
+
+              <div className="divide-y divide-border">
+                {featuredProjects.map(({ id, live, item }, index) => (
+                  <a
+                    key={id}
+                    href="#projects"
+                    className="group flex gap-3 py-4 first:pt-1 last:pb-1"
+                  >
+                    <span className="text-xs text-muted font-medium pt-1">0{index + 1}</span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="font-semibold text-foreground group-hover:text-blue-700 transition-colors">
+                          {item.name}
+                        </h3>
+                        {live && <span className="tag text-[11px]">{dict.projects.viewLive}</span>}
+                      </div>
+                      <p className="text-sm text-secondary leading-relaxed line-clamp-2">{item.oneLiner}</p>
+                    </div>
+                  </a>
+                ))}
               </div>
             </motion.div>
           </motion.div>
@@ -293,4 +291,3 @@ export function Hero({ dict }: HeroProps) {
     </section>
   )
 }
-
