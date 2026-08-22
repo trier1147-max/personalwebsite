@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Molly · 求职搭子 · 桌面原型</title>
+<style>
+:root{
+  --canvas:#fff; --soft:#fafafa; --soft2:#f4f5f7; --ink:#1a1a1a; --body:#4d4d4d; --mute:#8a8a8a;
+  --line:#ececec; --line2:#e2e2e4; --brand:#4f7cff; --brand-deep:#2f55e0; --brand-soft:#eef2ff;
+  --accent:#2bd49b;
+  --f-doc:#3b6fff; --f-md:#4f7cff; --f-json:#d99a2b; --f-xls:#1aa06b; --f-ppt:#e8643c; --f-img:#c4456e;
+  --mango1:#f9b45f; --mango2:#fdd8a1; --fin1:#c3d0fb; --fin2:#dde7ff; --mkt1:#f9c3de; --mkt2:#fbdcec;
+  --mono:"SF Mono","JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 14px -4px rgba(0,0,0,.08);
+  --shadow-lg:0 12px 36px -10px rgba(0,0,0,.18);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:Inter,ui-sans-serif,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  color:var(--ink);background:#e9eaee;-webkit-font-smoothing:antialiased;letter-spacing:-.011em}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.mono{font-family:var(--mono)}
+.hidden{display:none!important}
+
+/* ===== 窗口外框 ===== */
+.win{position:fixed;inset:16px;background:var(--canvas);border-radius:14px;overflow:hidden;
+  box-shadow:0 30px 90px rgba(0,0,0,.24);display:grid;grid-template-rows:auto 1fr}
+.titlebar{height:42px;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid var(--line);background:var(--soft)}
+.dot{width:12px;height:12px;border-radius:50%}
+.dot.r{background:#ee6a5e}.dot.y{background:#f4bf4f}.dot.g{background:#61c654}
+.titlebar .t{margin-left:12px;font-size:13px;color:var(--body);font-weight:600}
+
+/* ===== 主体 ===== */
+.shell{display:flex;min-height:0;overflow:hidden}
+/* 左导航栏 */
+.rail{width:74px;flex:0 0 74px;border-right:1px solid var(--line);background:var(--soft);
+  display:flex;flex-direction:column;align-items:center;padding:12px 0 14px}
+.rail .mascot-top{width:40px;height:40px;border-radius:50%;overflow:hidden;margin-bottom:14px;background:#eaf0ff;display:grid;place-items:center}
+.rail .mascot-top img{width:100%;height:100%;object-fit:cover}
+.railitem{width:60px;padding:9px 4px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px;color:var(--body);font-size:11px;line-height:1.1;transition:background .15s,color .15s}
+.railitem:hover{background:var(--canvas);color:var(--ink)}
+.railitem.on{background:var(--brand-soft);color:var(--brand-deep);font-weight:600}
+.railitem svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.rail .spacer{flex:1}
+.rail .me{width:36px;height:36px;border-radius:50%;margin-top:8px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:14px;border:2px solid var(--canvas);box-shadow:var(--shadow);
+  background:conic-gradient(from 210deg,#4f7cff,#7928ca,#ff0080,#f9cb28,#4f7cff)}
+
+/* 工作区 */
+.workspace{flex:1;min-width:0;display:flex;min-height:0}
+
+/* ===== 历史面板 ===== */
+.history{width:250px;flex:0 0 250px;border-right:1px solid var(--line);background:var(--soft);display:flex;flex-direction:column;min-height:0;transition:flex-basis .2s,width .2s}
+.shell.hist-collapsed .history{width:0;flex-basis:0;overflow:hidden;border:0}
+.history-head{display:flex;align-items:center;justify-content:space-between;padding:16px 14px 10px}
+.history-head .h-title{font-size:13px;font-weight:600;color:var(--body)}
+.history-toggle{width:26px;height:26px;border-radius:7px;color:var(--mute);display:grid;place-items:center;font-size:13px}
+.history-toggle:hover{background:var(--canvas);color:var(--ink)}
+.history-new{margin:2px 14px 10px;height:42px;border-radius:11px;border:1px solid var(--line2);background:var(--canvas);color:var(--ink);font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:7px}
+.history-new:hover{border-color:var(--ink);background:var(--soft2)}
+.history-list{overflow:auto;flex:1;padding:0 8px 12px}
+.hitem{display:block;width:100%;margin:2px 0;padding:11px 12px;border-radius:10px;text-align:left}
+.hitem:hover{background:var(--canvas)}
+.hitem.on{background:var(--brand-soft)}
+.hitem .ht{font-size:13.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.hitem.on .ht{color:var(--brand-deep);font-weight:600}
+.hitem .hm{font-size:11.5px;color:var(--mute);margin-top:3px}
+
+/* ===== 主区通用 ===== */
+.view{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;position:relative}
+.scroll{overflow:auto;flex:1;min-height:0}
+.page{max-width:1000px;margin:0 auto;padding:30px 44px 40px}
+.kicker{font-size:12.5px;color:var(--mute);letter-spacing:.05em;font-weight:600;text-transform:uppercase}
+.h1{margin:8px 0 4px;font-size:30px;font-weight:700;letter-spacing:-.03em}
+.sub{margin:0 0 20px;color:var(--body);font-size:14.5px}
+
+/* ===== 对话 · 空状态 ===== */
+.chat-main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0}
+.chat-scroll{flex:1;overflow:auto;min-height:0;display:flex;flex-direction:column}
+.chat-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+.chat-empty .big-mascot{width:88px;height:88px;border-radius:50%;overflow:hidden;background:#eaf0ff;display:grid;place-items:center;margin-bottom:20px}
+.chat-empty .big-mascot img{width:100%;height:100%;object-fit:cover}
+.chat-empty h2{margin:0;font-size:30px;font-weight:700;letter-spacing:-.02em}
+.chat-empty .tag{margin:8px 0 26px;color:var(--mute);font-size:15px}
+.quick-chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:640px}
+.qchip{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border:1px solid var(--line2);border-radius:12px;background:var(--canvas);color:var(--ink);font-size:14px;box-shadow:var(--shadow);transition:transform .12s,border-color .12s}
+.qchip:hover{transform:translateY(-1px);border-color:var(--brand)}
+
+/* ===== 对话 · 消息态 ===== */
+.conv{max-width:820px;margin:0 auto;width:100%;padding:24px 40px 12px;flex:1}
+.conv-head{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.conv-head .ct{font-size:14px;font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:100px;font-size:12px;font-weight:600}
+.pill.done{background:var(--brand-soft);color:var(--brand-deep)}
+.pill.run{background:#eef7f2;color:#16845c}
+.pill.run i{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.3}}
+.msg{margin-bottom:22px}
+.msg.u{display:flex;justify-content:flex-end}
+.msg.u .bub{max-width:80%;background:#2b2b2f;color:#fff;padding:13px 16px;border-radius:14px 14px 4px 14px;font-size:14.5px;line-height:1.6}
+.msg.a{display:flex;gap:11px}
+.msg.a .av{width:30px;height:30px;border-radius:50%;overflow:hidden;flex:0 0 auto;background:#eaf0ff;margin-top:2px}
+.msg.a .av img{width:100%;height:100%;object-fit:cover}
+.msg.a .body{flex:1;min-width:0}
+.msg.a .name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.msg.a .rich{font-size:14.5px;line-height:1.7;color:var(--body)}
+.msg.a .rich b{color:var(--ink)}
+.msg.a .rich ul{margin:8px 0;padding-left:20px}
+.msg.a .rich li{margin:3px 0}
+.msg.a .rich code{font-family:var(--mono);font-size:12.5px;background:var(--soft2);padding:1px 6px;border-radius:5px;color:var(--brand-deep)}
+.file-cards{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.fcard{display:inline-flex;align-items:center;gap:9px;padding:8px 13px 8px 9px;border:1px solid var(--line2);border-radius:11px;background:var(--soft);cursor:pointer}
+.fcard:hover{border-color:var(--brand);background:var(--brand-soft)}
+.fcard .fi{width:26px;height:26px;border-radius:6px;display:grid;place-items:center;color:#fff;font-size:9px;font-weight:700;font-family:var(--mono)}
+.fcard .fn{font-size:13px;color:var(--ink)}
+
+/* ===== Composer ===== */
+.composer{border-top:1px solid var(--line);background:var(--canvas);padding:14px 0 12px}
+.composer.floating{border-top:0;padding-bottom:26px}
+.composer-inner{max-width:820px;margin:0 auto;padding:0 40px;width:100%}
+.ask{border:1px solid var(--line2);border-radius:16px;background:var(--canvas);box-shadow:var(--shadow);padding:6px 6px 6px 6px}
+.ask:focus-within{border-color:var(--ink)}
+.ask-chip{display:inline-flex;align-items:center;gap:6px;margin:6px 0 2px 8px;padding:4px 8px 4px 10px;border-radius:100px;background:var(--brand-soft);color:var(--brand-deep);font-size:12.5px;font-weight:600}
+.ask-chip .x{cursor:pointer;opacity:.6;font-size:14px}.ask-chip .x:hover{opacity:1}
+.askfield{width:100%;border:0;outline:0;font-size:15px;color:var(--ink);background:none;padding:10px 12px 6px}
+.askfield::placeholder{color:var(--mute)}
+.asktools{display:flex;align-items:center;gap:6px;padding:2px 6px 4px}
+.asktools .sp{flex:1}
+.tbtn{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:100px;color:var(--body);font-size:13.5px}
+.tbtn:hover{background:var(--soft2);color:var(--ink)}
+.tbtn.icon{width:34px;padding:0;justify-content:center;font-size:18px}
+.tbtn.model{color:var(--body)}
+.caret{font-size:9px;color:var(--mute)}
+.fn-hint{display:inline-flex;align-items:center;gap:6px;padding:5px 8px 5px 10px;border-radius:100px;background:var(--soft2);color:var(--mute);font-size:12px}
+.fn-hint kbd{font-family:var(--mono);font-size:11px;background:var(--canvas);border:1px solid var(--line2);border-radius:5px;padding:1px 6px;color:var(--body)}
+.fn-hint .x{cursor:pointer}
+.send{width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:17px}
+.send:hover{background:var(--brand-deep)}
+/* 技能下拉 */
+.menu{position:absolute;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-lg);padding:6px;z-index:80;min-width:216px}
+.menu .mt{font-size:11px;color:var(--mute);letter-spacing:.05em;padding:6px 10px 4px;font-weight:600}
+.menu-opt{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;font-size:14px;color:var(--body);width:100%;text-align:left}
+.menu-opt:hover{background:var(--soft2);color:var(--ink)}
+.menu-opt .mi{width:20px;text-align:center;font-size:15px}
+.menu-opt small{margin-left:auto;color:var(--mute);font-size:11px}
+
+/* ===== 训练营 ===== */
+.camp-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ccard{border:1px solid var(--line);border-radius:16px;background:var(--canvas);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+.ccard.live:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.cc-hero{height:132px;position:relative;display:grid;place-items:center;font-size:52px}
+.cc-hero.mango{background:linear-gradient(150deg,var(--mango1),var(--mango2))}
+.cc-hero.fin{background:linear-gradient(150deg,var(--fin1),var(--fin2))}
+.cc-hero.mkt{background:linear-gradient(150deg,var(--mkt1),var(--mkt2))}
+.cc-badge{position:absolute;top:12px;right:12px;padding:4px 10px;border-radius:100px;font-size:11.5px;font-weight:600;background:rgba(255,255,255,.85);color:var(--ink);backdrop-filter:blur(4px)}
+.cc-body{padding:16px 16px 18px;display:flex;flex-direction:column;flex:1}
+.cc-title{font-size:16px;font-weight:700;margin:0 0 8px}
+.cc-desc{font-size:13px;color:var(--body);line-height:1.55;margin:0 0 12px;flex:1}
+.cc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.cc-tag{font-size:11.5px;color:var(--body);border:1px solid var(--line2);border-radius:100px;padding:3px 10px}
+.cc-tag.lv1{background:var(--brand-soft);color:var(--brand-deep);border-color:#dbe4ff}
+.cc-btn{height:42px;border-radius:11px;font-size:14px;font-weight:600}
+.cc-btn.go{background:var(--brand);color:#fff}.cc-btn.go:hover{background:var(--brand-deep)}
+.cc-btn.soon{background:var(--soft2);color:var(--mute);cursor:default}
+.explain{margin-top:22px;border:1px dashed var(--line2);border-radius:16px;padding:20px 22px;background:var(--soft)}
+.explain h4{margin:0 0 14px;font-size:14.5px;font-weight:600}
+.explain-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.explain-col b{display:block;font-size:13.5px;color:var(--brand-deep);margin-bottom:6px}
+.explain-col p{margin:0;font-size:12.5px;color:var(--body);line-height:1.6}
+
+/* 关卡详情 */
+.stagebar{display:flex;align-items:center;gap:0;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--soft);overflow-x:auto}
+.stage-node{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--mute);white-space:nowrap;flex:0 0 auto}
+.stage-node .sn-dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--line2);display:grid;place-items:center;font-size:11px;color:var(--mute)}
+.stage-node.done{color:var(--ink)}
+.stage-node.done .sn-dot{background:var(--accent);border-color:var(--accent);color:#fff}
+.stage-node.active{color:var(--brand-deep);font-weight:600}
+.stage-node.active .sn-dot{border-color:var(--brand);color:var(--brand)}
+.stage-sep{width:26px;height:2px;background:var(--line2);margin:0 8px;flex:0 0 auto}
+.camp-detail{display:flex;flex:1;min-height:0}
+.camp-chat{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--line)}
+.camp-task{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 22px;background:#fffdf6;border-bottom:1px solid var(--line)}
+.camp-task .tinfo{font-size:13px;color:var(--body)}
+.camp-task .tinfo b{color:var(--ink)}
+.camp-task .badge-stage{display:inline-block;background:var(--mango1);color:#fff;font-size:11px;font-weight:600;padding:2px 9px;border-radius:100px;margin-right:8px}
+.submit-btn{height:36px;padding:0 16px;border-radius:9px;background:var(--accent);color:#fff;font-size:13px;font-weight:600;flex:0 0 auto}
+.submit-btn:hover{filter:brightness(.96)}
+.artifact{width:44%;flex:0 0 44%;display:flex;flex-direction:column;min-height:0;background:var(--soft)}
+.artifact-head{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--canvas)}
+.artifact-head .af-name{font-size:13px;font-weight:600}
+.artifact-head .af-edit{font-size:12.5px;color:var(--brand-deep);display:inline-flex;gap:5px;align-items:center}
+.artifact-body{overflow:auto;flex:1;padding:22px 24px}
+.artifact-body h3{margin:0 0 14px;font-size:19px;font-weight:700}
+.artifact-body h5{margin:20px 0 8px;font-size:13.5px;font-weight:700;color:var(--ink)}
+.atable{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:6px}
+.atable th,.atable td{border:1px solid var(--line2);padding:6px 8px;text-align:left;vertical-align:top}
+.atable th{background:var(--soft2);font-weight:600;color:var(--ink)}
+.atable td{color:var(--body)}
+.prio{display:inline-block;padding:1px 6px;border-radius:5px;font-size:10.5px;font-weight:600;font-family:var(--mono)}
+.prio.p0{background:#fdecec;color:#c50000}.prio.p1{background:#fff3e0;color:#c47d00}
+.alist{margin:6px 0;padding-left:20px;font-size:12.5px;color:var(--body);line-height:1.7}
+
+/* 简历成果 */
+.resume{background:#fff;border:1px solid var(--line2);border-radius:6px;padding:26px 30px;font-size:12px;color:#333;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.resume .r-name{font-size:22px;font-weight:700;text-align:center;letter-spacing:2px}
+.resume .r-contact{text-align:center;font-size:11px;color:#888;margin:6px 0 16px}
+.resume .r-sec{font-size:13px;font-weight:700;color:var(--brand-deep);border-bottom:2px solid var(--brand);padding-bottom:3px;margin:16px 0 8px}
+.resume .r-row{display:flex;justify-content:space-between;font-size:11.5px;margin:3px 0}
+.resume .r-row b{color:#222}
+.resume .r-hl{background:#fff8e6;padding:1px 3px}
+.resume ul{margin:6px 0;padding-left:18px;line-height:1.7}
+.resume li b{color:var(--brand-deep)}
+
+/* ===== 投递 Kanban ===== */
+.kanban-top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:26px 40px 14px;max-width:100%;}
+.kanban-top .h1{margin:6px 0 2px}
+.kanban-actions{display:flex;gap:8px}
+.kbtn{height:38px;padding:0 15px;border-radius:10px;border:1px solid var(--line2);background:var(--canvas);font-size:13.5px;color:var(--ink);display:inline-flex;align-items:center;gap:6px}
+.kbtn:hover{border-color:var(--ink)}
+.kbtn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.board{display:flex;gap:12px;overflow-x:auto;padding:8px 40px 30px;flex:1;min-height:0;align-items:flex-start}
+.kcol{flex:0 0 236px;width:236px;background:var(--soft);border:1px solid var(--line);border-radius:13px;display:flex;flex-direction:column;max-height:100%}
+.kcol-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 8px}
+.kcol-head .kn{font-size:13px;font-weight:600}
+.kcol-head .kc{font-size:11px;color:var(--mute);background:var(--canvas);border:1px solid var(--line2);border-radius:100px;padding:1px 8px}
+.kcol-body{padding:2px 10px 12px;overflow:auto;display:flex;flex-direction:column;gap:9px}
+.jcard{background:var(--canvas);border:1px solid var(--line2);border-radius:11px;padding:12px;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s,border-color .12s}
+.jcard:hover{transform:translateY(-2px);border-color:var(--brand)}
+.jcard .jco{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.jcard .jlogo{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;flex:0 0 auto}
+.jcard .jrole{font-size:13.5px;font-weight:600;line-height:1.35}
+.jcard .jc-sub{font-size:11.5px;color:var(--mute);margin-top:2px}
+.jcard .jmeta{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.jtag{font-size:10.5px;color:var(--body);background:var(--soft2);border-radius:5px;padding:2px 7px}
+.kcol.reject{opacity:.75}
+.kadd{color:var(--mute);font-size:12.5px;padding:9px;border:1px dashed var(--line2);border-radius:10px;text-align:center}
+.kadd:hover{border-color:var(--brand);color:var(--brand-deep);background:var(--brand-soft)}
+
+/* ===== 资料库 ===== */
+.lib-top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px}
+.lib-search-row{display:flex;gap:10px;padding-bottom:2px}
+.lib-search{display:flex;align-items:center;gap:8px;height:44px;padding:0 16px;border:1px solid var(--line2);border-radius:100px;background:var(--canvas);width:320px}
+.lib-search input{border:0;outline:0;background:none;font-size:13.5px;flex:1;color:var(--ink)}
+.lib-search svg{width:16px;height:16px;stroke:var(--mute);fill:none;stroke-width:1.8}
+.lib-body{display:grid;grid-template-columns:280px 1fr;gap:18px}
+.lib-parts{border:1px solid var(--line);border-radius:14px;background:var(--canvas);padding:12px;height:fit-content;box-shadow:var(--shadow)}
+.lib-parts .pt{font-size:11px;color:var(--mute);letter-spacing:.05em;font-weight:600;padding:6px 10px 8px}
+.part{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:10px;width:100%;text-align:left}
+.part:hover{background:var(--soft2)}
+.part.on{background:var(--brand-soft)}
+.part .pe{font-size:17px;width:22px;text-align:center}
+.part .pn{flex:1;font-size:14px;color:var(--ink)}
+.part.on .pn{color:var(--brand-deep);font-weight:600}
+.part .pcount{font-size:11px;color:#fff;background:var(--brand);min-width:20px;height:20px;border-radius:100px;display:grid;place-items:center;padding:0 6px}
+.part .pdot{color:var(--line2);font-size:16px}
+.lib-files{border:1px solid var(--line);border-radius:14px;background:var(--canvas);padding:18px 20px;box-shadow:var(--shadow)}
+.lib-files-head{display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.lib-files-head .lf-icon{width:44px;height:44px;border-radius:11px;background:var(--brand-soft);display:grid;place-items:center;font-size:22px}
+.lib-files-head .lf-t{flex:1}
+.lib-files-head .lf-t b{font-size:18px}
+.lib-files-head .lf-t div{font-size:12.5px;color:var(--mute);margin-top:3px}
+.lib-files-head .lf-open{font-size:13px;color:var(--ink);border:1px solid var(--line2);border-radius:9px;padding:8px 12px;display:inline-flex;gap:6px}
+.lib-files-head .lf-open:hover{border-color:var(--ink)}
+.frow{display:flex;align-items:center;gap:13px;padding:14px 6px;border-radius:10px}
+.frow:hover{background:var(--soft2)}
+.frow .fi{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;font-family:var(--mono);flex:0 0 auto}
+.frow .fmeta{flex:1;min-width:0}
+.frow .fnm{font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px}
+.frow .fsz{font-size:11.5px;color:var(--mute);margin-top:3px}
+.gen-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--brand-deep);background:var(--brand-soft);padding:2px 8px;border-radius:100px}
+.lib-empty{padding:50px 20px;text-align:center;color:var(--mute);font-size:13.5px;line-height:1.8}
+
+/* ===== 设置 ===== */
+.set-body{display:grid;grid-template-columns:170px 1fr;gap:34px;max-width:900px}
+.set-tabs{display:flex;flex-direction:column;gap:2px}
+.stab{padding:10px 13px;border-radius:9px;color:var(--body);font-size:14px;text-align:left}
+.stab:hover{background:var(--soft2);color:var(--ink)}
+.stab.on{background:var(--brand-soft);color:var(--brand-deep);font-weight:600}
+.sgroup{padding:18px 0;border-bottom:1px solid var(--line)}
+.sgroup:first-child{padding-top:0}
+.sgroup:last-child{border:0}
+.sgroup h3{margin:0 0 5px;font-size:15.5px;font-weight:600}
+.sgroup .sd{margin:0 0 12px;font-size:13px;color:var(--body);line-height:1.6}
+.tier-picker{display:flex;gap:10px;flex-wrap:wrap}
+.tier{flex:1;min-width:170px;border:1px solid var(--line2);border-radius:12px;padding:14px;cursor:pointer}
+.tier:hover{border-color:#bbb}
+.tier.on{border-color:var(--brand);box-shadow:0 0 0 1px var(--brand);background:var(--brand-soft)}
+.tier .tn{font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:7px}
+.tier .tone{font-size:12px;color:var(--mute);margin-top:4px}
+.tier .tmodel{font-family:var(--mono);font-size:11px;color:var(--brand-deep);margin-top:8px}
+.badge-rec{font-size:10px;font-weight:600;background:var(--brand);color:#fff;padding:1px 7px;border-radius:100px}
+.srow{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1px solid var(--line2);border-radius:10px;background:var(--soft)}
+.srow .spath{flex:1;font-family:var(--mono);font-size:12.5px;color:var(--ink)}
+.sbtn{padding:8px 13px;border:1px solid var(--line2);border-radius:9px;background:var(--canvas);font-size:13px;color:var(--ink)}
+.sbtn:hover{border-color:var(--ink)}
+.skey{display:flex;gap:8px}
+.skey input{flex:1;height:40px;border:1px solid var(--line2);border-radius:9px;padding:0 13px;font:inherit;font-size:13.5px;outline:none}
+.skey input:focus{border-color:var(--ink)}
+.locked{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:9px;background:var(--soft);color:var(--body);font-size:13px}
+.chip-soon{font-size:10px;color:var(--mute);background:var(--soft2);border:1px solid var(--line2);border-radius:100px;padding:2px 8px}
+
+/* Toast */
+.toast{position:fixed;bottom:44px;left:50%;transform:translateX(-50%) translateY(8px);z-index:300;padding:11px 20px;border-radius:11px;background:#1a1a1a;color:#fff;font-size:14px;box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:.22s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="titlebar">
+    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+    <span class="t">Molly</span>
+  </div>
+
+  <div class="shell" id="shell">
+    <!-- 左导航栏 -->
+    <aside class="rail">
+      <div class="mascot-top"><img src="molly-icon.png" alt="Molly"></div>
+      <button class="railitem on" data-nav="chat" onclick="nav('chat')">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-4-.9L3 21l1.9-4.5A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg>
+        <span>对话</span>
+      </button>
+      <button class="railitem" data-nav="camp" onclick="nav('camp')">
+        <svg viewBox="0 0 24 24"><path d="M4 21V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>
+        <span>训练营</span>
+      </button>
+      <button class="railitem" data-nav="jobs" onclick="nav('jobs')">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="4" height="16" rx="1"/><rect x="10" y="4" width="4" height="11" rx="1"/><rect x="17" y="4" width="4" height="14" rx="1"/></svg>
+        <span>投递</span>
+      </button>
+      <button class="railitem" data-nav="library" onclick="nav('library')">
+        <svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span>资料库</span>
+      </button>
+      <div class="spacer"></div>
+      <button class="railitem" data-nav="settings" onclick="nav('settings')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>
+        <span>设置</span>
+      </button>
+      <div class="me" title="我的账户">M</div>
+    </aside>
+
+    <div class="workspace">
+      <!-- 历史面板（仅对话） -->
+      <aside class="history" id="history">
+        <div class="history-head">
+          <span class="h-title">最近对话</span>
+          <button class="history-toggle" onclick="toggleHistory()" title="收起">◀</button>
+        </div>
+        <button class="history-new" onclick="newChat()">＋ 新对话</button>
+        <div class="history-list" id="historyList"></div>
+      </aside>
+
+      <!-- ===== 对话视图 ===== -->
+      <section class="view" id="view-chat">
+        <div class="chat-main">
+          <div class="chat-scroll" id="chatScroll">
+            <!-- 空状态 -->
+            <div class="chat-empty" id="chatEmpty">
+              <div class="big-mascot"><img src="molly-icon.png" alt="Molly"></div>
+              <h2 id="greeting">夜深了，我是 Molly</h2>
+              <div class="tag">你的求职搭子</div>
+              <div class="quick-chips" id="quickChips"></div>
+            </div>
+            <!-- 对话态 -->
+            <div class="conv hidden" id="conv"></div>
+          </div>
+
+          <div class="composer" id="composer">
+            <div class="composer-inner">
+              <div class="ask">
+                <div class="ask-chip hidden" id="askChip"><span id="askChipTxt">⭐ 收藏岗位</span><span class="x" onclick="clearSkill()">×</span></div>
+                <input class="askfield" id="askInput" placeholder="和 Molly 说点什么…（@ 选技能 · 按住 Fn 键即可语音说话）" onkeydown="if(event.key==='Enter'){event.preventDefault();sendMsg()}">
+                <div class="asktools">
+                  <button class="tbtn icon" title="上传" onclick="toast('上传文件 / 图片','📎')">＋</button>
+                  <button class="tbtn" id="skillBtn" onclick="toggleSkillMenu(event)">☆ <span id="skillBtnTxt">技能</span> <span class="caret">▾</span></button>
+                  <span class="sp"></span>
+                  <button class="tbtn model" onclick="nav('settings')">标准 <span class="caret">▾</span></button>
+                  <button class="tbtn icon" title="语音" onclick="toast('语音输入','🎙')">🎙</button>
+                  <span class="fn-hint">按住 <kbd>Fn</kbd> 说话 · 练结构化表达 <span class="x" onclick="this.parentNode.remove()">×</span></span>
+                  <button class="send" onclick="sendMsg()">↑</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 训练营视图 ===== -->
+      <section class="view hidden" id="view-camp">
+        <!-- 列表 -->
+        <div class="scroll" id="campList">
+          <div class="page">
+            <div class="kicker">MOLLY 训练营</div>
+            <div class="h1">训练营</div>
+            <p class="sub">下载一段模拟实习，像真实入职一样干活，产出能写进简历的项目经历。</p>
+            <div class="camp-cards" id="campCards"></div>
+            <div class="explain">
+              <h4>💡 模拟实习是什么？</h4>
+              <div class="explain-cols">
+                <div class="explain-col"><b>① 选项目开营</b><p>Molly 帮你搭好全套工作环境：公司背景、任务卡、数据素材，都在你电脑里。</p></div>
+                <div class="explain-col"><b>② 跟着 mentor 干活</b><p>按阶段推进，做完交作业，有"总监"逐条 review，不达标就重改——和真实习一样。</p></div>
+                <div class="explain-col"><b>③ 结项写进简历</b><p>四个阶段做完，HR 出实习评价，产出直接沉淀成简历里的项目经历。</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 关卡详情 -->
+        <div id="campDetail" style="display:none;flex-direction:column;flex:1;min-height:0">
+          <div class="stagebar" id="stageBar"></div>
+          <div class="camp-detail">
+            <div class="camp-chat">
+              <div class="camp-task">
+                <div class="tinfo"><span class="badge-stage" id="stageBadge">第 1/4 关</span><b id="stageTaskName">需求调研（含竞品分析）</b> · <span id="stageTaskDesc">拆 2 个竞品 + 20 条反馈点聚类 + 3 访谈提纲</span></div>
+                <button class="submit-btn" id="submitBtn" onclick="submitStage()">✓ 提交本关 / 解锁下一关</button>
+              </div>
+              <div class="chat-scroll" style="padding:20px 26px" id="campChat"></div>
+              <div class="composer">
+                <div class="composer-inner" style="max-width:none;padding:0 26px">
+                  <div class="ask">
+                    <input class="askfield" id="campInput" placeholder="和 mentor 林哲 说点什么…" onkeydown="if(event.key==='Enter'){event.preventDefault();toast('已发送给 mentor','✈️');this.value=''}">
+                    <div class="asktools">
+                      <button class="tbtn icon">＋</button>
+                      <button class="tbtn">☆ 技能 <span class="caret">▾</span></button>
+                      <span class="sp"></span>
+                      <button class="tbtn model">标准 <span class="caret">▾</span></button>
+                      <button class="send">↑</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="artifact">
+              <div class="artifact-head">
+                <span class="af-name" id="afName">01 · 需求调研（含竞品分析）</span>
+                <button class="af-edit" onclick="toast('打开编辑','✏️')">✏️ 编辑</button>
+              </div>
+              <div class="artifact-body" id="afBody"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 投递视图 ===== -->
+      <section class="view hidden" id="view-jobs">
+        <div class="kanban-top">
+          <div>
+            <div class="kicker">投递看板</div>
+            <div class="h1">投递</div>
+          </div>
+          <div class="kanban-actions">
+            <button class="kbtn" onclick="toast('已导出 investment.csv','📄')">⇩ 导出 CSV</button>
+            <button class="kbtn primary" onclick="nav('chat');pickSkill('收藏')">＋ 收藏岗位</button>
+          </div>
+        </div>
+        <div class="board" id="board"></div>
+      </section>
+
+      <!-- ===== 资料库视图 ===== -->
+      <section class="view hidden" id="view-library">
+        <div class="scroll">
+          <div class="page">
+            <div class="lib-top">
+              <div>
+                <div class="kicker">资料库</div>
+                <div class="h1">资料库</div>
+                <p class="sub" style="margin:0">Molly 帮你沉淀的所有求职资产，都在你自己的电脑里</p>
+              </div>
+              <div class="lib-search-row">
+                <div class="lib-search">
+                  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+                  <input placeholder="搜文件名，跨全部分区">
+                </div>
+                <button class="kbtn" onclick="toast('打开资料库根目录','📂')">📂 资料库根目录</button>
+              </div>
+            </div>
+            <div class="lib-body">
+              <div class="lib-parts">
+                <div class="pt">分区</div>
+                <div id="libParts"></div>
+              </div>
+              <div class="lib-files" id="libFiles"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 设置视图 ===== -->
+      <section class="view hidden" id="view-settings">
+        <div class="scroll">
+          <div class="page">
+            <div class="kicker">SETTINGS</div>
+            <div class="h1">设置</div>
+            <p class="sub">配置模型、密钥、产出位置。</p>
+            <div class="set-body">
+              <div class="set-tabs">
+                <button class="stab on" data-stab="general" onclick="setTab('general')">常用</button>
+                <button class="stab" data-stab="model" onclick="setTab('model')">模型效果</button>
+                <button class="stab" data-stab="about" onclick="setTab('about')">关于</button>
+              </div>
+              <div id="setContent"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- 技能菜单浮层 -->
+<div class="menu hidden" id="skillMenu"></div>
+
+<script>
+/* ============ 数据 ============ */
+const QUICK=[
+  {ic:'🔍',t:'搜产品实习岗'},{ic:'📖',t:'查面经'},{ic:'✨',t:'改简历'},
+  {ic:'🎤',t:'模拟面试'},{ic:'📅',t:'投递节奏'},{ic:'🔬',t:'调研公司'}
+];
+const SKILLS=[
+  {ic:'🔍',t:'搜岗',d:'真实岗位库'},{ic:'⭐',t:'收藏',d:'存进投递箱'},
+  {ic:'📖',t:'查面经',d:'真实面经库'},{ic:'🔬',t:'公司调研',d:'联网搜索'},
+  {ic:'✨',t:'简历定制',d:'按 JD 改'},{ic:'🎤',t:'模拟面试',d:'AI 面试官'},
+  {ic:'📝',t:'复盘',d:'面试复盘'},{ic:'📅',t:'投递节奏',d:'每周提醒'}
+];
+const THREADS=[
+  {t:'林哲，我来报到了！第一关是…',m:'13 分钟前'},
+  {t:'我回到「青芒校园」模拟实习…',m:'3 小时前'},
+  {t:'林哲，我来报到了！第一关是…',m:'3 小时前'},
+  {t:'林哲，我来报到了！第一关是…',m:'3 小时前'},
+  {t:'林哲，我来报到了！第一关是…',m:'3 小时前'},
+  {t:'林哲，我来报到了！第一关是…',m:'3 小时前'},
+  {t:'查面经',m:'9 小时前'}
+];
+const CAMPS=[
+  {id:'mango',hero:'mango',emoji:'🥭',badge:'实习中 · 第1阶段',title:'「青芒校园」产品经理模拟实习',
+   desc:'入职 DAU 50 万的校园 App 产品部，从竞品分析做到 PRD、亲手做原型、过审评，产出一段完整的产品实习经历。',
+   tags:['入门','4 个阶段 · 约 2 周','需求调研','竞品分析','PRD','原型 Demo','评审答辩'],live:true,btn:'继续实习 / 交作业'},
+  {id:'fin',hero:'fin',emoji:'🏛️',badge:'即将上线',title:'金融投研模拟实习',
+   desc:'入职虚构券商研究所，从行业数据到一份能过关的研报。',
+   tags:['进阶','4 个阶段','行业研究','财务分析','研报写作'],live:false,btn:'敬请期待'},
+  {id:'mkt',hero:'mkt',emoji:'📣',badge:'即将上线',title:'市场营销模拟实习',
+   desc:'为一款新品操盘从 0 到 1 的校园营销 campaign。',
+   tags:['入门','4 个阶段','市场洞察','内容策划','投放复盘'],live:false,btn:'敬请期待'}
+];
+const CAMP_STAGES=[
+  {name:'需求调研（含竞品分析）',desc:'拆 2 个竞品 + 20 条反馈点聚类 + 3 访谈提纲',mentor:'林哲 · Mentor',af:'01 · 需求调研（含竞品分析）',
+   chat:[
+     ['a','林哲 · Mentor','欢迎入职～第一关是<b>需求调研</b>——竞品分析就放在这一步。先看外面已经怎么做，再回到我们自己。<br><br>右边这张卡我开好了三块：① 竞品分析表 ② 20 条真实反馈的痛点聚类 ③ 访谈提纲。对着写、补进你的观点。'],
+     ['u','','我先拆超级课程表和 Soul，再把反馈按「匹配精度 / 信任安全 / 留存」三类。'],
+     ['a','林哲 · Mentor','思路很顺 👍。一个校园高频、一个陌生社交正好互补。尤其"信任安全"——每条引用反馈编号当证据，齐了就点上面「提交本关」。']
+   ],
+   art:`<h3>01 · 需求调研（含竞品分析）</h3>
+     <h5>一、竞品分析</h5>
+     <table class="atable"><tr><th>维度</th><th>超级课程表</th><th>Soul</th></tr>
+     <tr><td>入口</td><td>课表工具 / 找搭子</td><td>灵魂匹配 / 广场</td></tr>
+     <tr><td>匹配</td><td>按课程 / 同校同专业</td><td>性格测试 + 兴趣算法</td></tr>
+     <tr><td>关联</td><td>私信 + 学习小组</td><td>匿名广场 · 语音派对</td></tr>
+     <tr><td>留存</td><td>课程刚需 · 学期强</td><td>情感 / 陪伴强黏性</td></tr></table>
+     <h5>二、用户痛点聚类（20 条反馈）</h5>
+     <table class="atable"><tr><th>聚类</th><th>反馈编号</th><th>优先级</th></tr>
+     <tr><td>匹配精度（专业 / 作息不对）</td><td>#1 #6 #12 #18</td><td><span class="prio p0">P0</span></td></tr>
+     <tr><td>信任安全（被放鸽 / 假学生）</td><td>#3 #7 #11 #15</td><td><span class="prio p0">P0</span></td></tr>
+     <tr><td>留存缺失（开学热度过后即走）</td><td>#10 #17</td><td><span class="prio p1">P1</span></td></tr>
+     <tr><td>噪声 / 内容差</td><td>#5 #16</td><td>删除</td></tr></table>
+     <h5>三、访谈提纲</h5>
+     <ul class="alist"><li>1. 上一次找搭子是什么时候？为什么找？</li><li>2. 当时怎么找的、成了没？发生了什么？</li><li>3. 最担心遇到什么样的人？</li></ul>`},
+  {name:'PRD 撰写',desc:'定北极星指标 + MVP 功能优先级 + 核心流程 + 验收线',mentor:'林哲 · Mentor',af:'02 · PRD · 校园找搭子',
+   chat:[
+     ['a','林哲 · Mentor','调研过关 👍。现在把痛点翻译成产品方案——先写清"解决谁的什么问题、上线后看什么指标"，再列功能。别一上来堆功能。'],
+     ['u','','北极星 = 周活跃"找搭子成功率"；MVP 只做两个 P0：按课表/专业智能匹配 + 实名学籍校验。'],
+     ['a','林哲 · Mentor','克制得好。把"匹配成功率"和"举报率"当验收线写进 PRD，右边卡片结构我起好了。']
+   ],
+   art:`<h3>02 · PRD · 校园找搭子</h3>
+     <h5>一、目标与北极星指标</h5>
+     <ul class="alist"><li><b>问题：</b>大学生想找学习/活动搭子，但匹配不准、信任成本高。</li><li><b>北极星：</b>周活跃「找搭子成功率」（发起→成功组队）。</li></ul>
+     <h5>二、功能列表（MVP）</h5>
+     <table class="atable"><tr><th>功能</th><th>优先级</th><th>说明</th></tr>
+     <tr><td>按课表 / 专业智能匹配</td><td><span class="prio p0">P0</span></td><td>核心匹配，解决"匹配精度"</td></tr>
+     <tr><td>实名 + 学籍校验</td><td><span class="prio p0">P0</span></td><td>解决"信任安全"，匹配前置门槛</td></tr>
+     <tr><td>搭子邀请 / 确认</td><td><span class="prio p1">P1</span></td><td>组队闭环</td></tr>
+     <tr><td>兴趣标签补充</td><td><span class="prio p1">P1</span></td><td>提升匹配质量</td></tr></table>
+     <h5>三、核心流程</h5>
+     <ul class="alist"><li>学籍校验 → 填课表/专业 → 智能匹配 → 发起搭子 → 对方确认 → 成组</li></ul>
+     <h5>四、验收线</h5>
+     <ul class="alist"><li>匹配成功率 ≥ 30%　·　举报率 ≤ 1%</li></ul>`},
+  {name:'原型 Demo',desc:'画 3 屏低保真原型 + 关键交互标注',mentor:'林哲 · Mentor',af:'03 · 原型 Demo · 3 屏核心流程',
+   chat:[
+     ['a','林哲 · Mentor','PRD 定稿。把 P0 流程画成能点的原型——不用美化，先跑通"注册校验→匹配→发起搭子"三屏。'],
+     ['u','','三屏：①学籍校验引导 ②匹配结果卡片流 ③搭子邀请确认。匹配卡突出"同专业/同课表"标签建立信任。'],
+     ['a','林哲 · Mentor','信任标签放对了。校验页记得写清"为什么要学籍"——转化率就差在这句文案。']
+   ],
+   art:`<h3>03 · 原型 Demo · 3 屏核心流程</h3>
+     <div style="display:flex;gap:10px;margin:8px 0 18px">
+       <div style="flex:1;border:1px solid var(--line2);border-radius:10px;padding:10px;background:#fff">
+         <div style="font-size:11px;font-weight:700;color:var(--brand-deep);margin-bottom:8px">① 学籍校验</div>
+         <div style="height:7px;width:70%;background:var(--line2);border-radius:3px;margin:6px 0"></div>
+         <div style="height:7px;width:90%;background:#f0f0f0;border-radius:3px;margin:6px 0"></div>
+         <div style="height:28px;background:var(--brand);border-radius:6px;margin-top:12px"></div>
+         <div style="font-size:9px;color:var(--mute);margin-top:6px">文案：为什么需要学籍？</div>
+       </div>
+       <div style="flex:1;border:1px solid var(--line2);border-radius:10px;padding:10px;background:#fff">
+         <div style="font-size:11px;font-weight:700;color:var(--brand-deep);margin-bottom:8px">② 匹配结果</div>
+         <div style="border:1px solid var(--line2);border-radius:6px;padding:6px;margin-bottom:5px"><div style="height:6px;width:60%;background:var(--line2);border-radius:3px"></div><div style="display:flex;gap:3px;margin-top:5px"><span style="font-size:8px;background:var(--brand-soft);color:var(--brand-deep);padding:1px 5px;border-radius:4px">同专业</span><span style="font-size:8px;background:var(--brand-soft);color:var(--brand-deep);padding:1px 5px;border-radius:4px">同课表</span></div></div>
+         <div style="border:1px solid var(--line2);border-radius:6px;padding:6px"><div style="height:6px;width:50%;background:var(--line2);border-radius:3px"></div></div>
+       </div>
+       <div style="flex:1;border:1px solid var(--line2);border-radius:10px;padding:10px;background:#fff">
+         <div style="font-size:11px;font-weight:700;color:var(--brand-deep);margin-bottom:8px">③ 邀请确认</div>
+         <div style="height:7px;width:80%;background:var(--line2);border-radius:3px;margin:6px 0"></div>
+         <div style="display:flex;gap:6px;margin-top:14px"><div style="flex:1;height:26px;background:var(--brand);border-radius:6px"></div><div style="flex:1;height:26px;background:#f0f0f0;border-radius:6px"></div></div>
+       </div>
+     </div>
+     <h5>关键交互标注</h5>
+     <ul class="alist"><li>匹配卡突出「同专业 / 同课表」标签 —— 建立信任</li><li>校验页写清"为什么要学籍" —— 转化率关键文案</li><li>邀请双向确认 —— 降低放鸽子率</li></ul>`},
+  {name:'评审与答辩',desc:'5 页汇报 + 答辩问答，总监 review',mentor:'许姐 · 总监',af:'04 · 评审与答辩',
+   chat:[
+     ['a','许姐 · 总监','我是许姐。方案看了，逻辑完整。答辩我只问一个："为什么先做匹配而不是先做安全？"——想清楚再上台。'],
+     ['u','','没有匹配就没有用户；安全是留存问题不是拉新问题。但校验作为匹配前置门槛同步上，所以两者其实一起做。'],
+     ['a','许姐 · 总监','抓住了主次又没丢安全，这版通过 ✅。下一步让 HR 给你出实习评价。']
+   ],
+   art:`<h3>04 · 评审与答辩</h3>
+     <h5>评审打分</h5>
+     <table class="atable"><tr><th>维度</th><th>评分</th><th>评语</th></tr>
+     <tr><td>问题定义</td><td>A</td><td>痛点准，有反馈编号支撑</td></tr>
+     <tr><td>方案取舍</td><td>A</td><td>MVP 克制，P0 只做两件事</td></tr>
+     <tr><td>指标意识</td><td>A-</td><td>北极星 + 验收线清晰</td></tr>
+     <tr><td>表达答辩</td><td>B+</td><td>主次分明，可再精炼</td></tr></table>
+     <h5>答辩 Q&amp;A</h5>
+     <ul class="alist"><li><b>Q：</b>为什么先做匹配而不是先做安全？</li><li><b>A：</b>没有匹配就没有用户；校验作为匹配前置门槛同步上线，两者一起做。</li></ul>
+     <h5>结论</h5>
+     <ul class="alist"><li>✅ <b>评审通过</b> —— 进入结项，产出实习评价。</li></ul>`},
+  {name:'写进简历',desc:'HR 出实习评价 + 项目经历沉淀进简历',mentor:'小滕 · HR',af:'简历 · 青芒项目版.docx',
+   chat:[
+     ['a','小滕 · HR','我是 HR 小滕，恭喜结项 🎉！实习评价我写好了，也按 STAR 结构把这段经历写进了你的简历 👉 右边看。'],
+     ['u','','太好了，这样我简历上就有一段真实的产品实习经历了。'],
+     ['a','小滕 · HR','对，而且经得起面试官追问——每个数字你都亲手做过。祝你 offer 多多 🎉']
+   ],
+   art:`<div class="resume">
+     <div class="r-name">张 · 求职</div>
+     <div class="r-contact">zhang.qri@email.com　|　138-****-8888　|　上海</div>
+     <div class="r-sec">教育背景</div>
+     <div class="r-row"><b>某某大学 · 信息管理与信息系统（本科）</b><span>2023.09 - 2027.06</span></div>
+     <div class="r-row"><span>GPA 3.7 / 4.0 · 产品社团负责人</span><span></span></div>
+     <div class="r-sec">项目经历</div>
+     <div class="r-row"><b>青芒校园 · 产品经理模拟实习</b><span>2025.06 - 2025.07</span></div>
+     <ul>
+       <li><b>项目定位：</b>带 50 万 DAU 校园 App「找搭子」方向，独立走完竞品调研 → 评审答辩全流程。</li>
+       <li><b>核心功能：</b>主导 PRD，MVP 聚焦<span class="r-hl">按课表/专业智能匹配</span> + 实名学籍校验两个 P0。</li>
+       <li><b>用户调研：</b>拆解超级课程表、Soul，聚类 20 条真实反馈为 4 类痛点并产出访谈提纲。</li>
+       <li><b>交付产出：</b>竞品分析 / PRD / 3 屏可点原型 / 5 页答辩，经总监评审通过。</li>
+     </ul>
+     <div style="margin-top:12px;padding:10px 12px;background:var(--brand-soft);border-radius:8px;font-size:11px;color:var(--brand-deep);line-height:1.6"><b>✨ HR 实习评价（小滕）：</b>独立完成从竞品调研到评审答辩全流程，产品判断力突出、指标意识强，可胜任产品实习岗。</div>
+   </div>`}
+];
+const STAGES=CAMP_STAGES.map(s=>s.name.replace('（含竞品分析）',''));
+let campStage=0, campDone=0;
+const KANBAN=[
+  {n:'收藏',cards:[
+    {logo:'字',c:'#1a1a1a',role:'AI 产品实习生（商家经营方向）',sub:'字节跳动 · 抖音生活服务',tags:['北京','产品','校招']},
+    {logo:'美',c:'#ffce00',cc:'#000',role:'产品经理实习生',sub:'美团 · 到店事业群',tags:['上海','实习']}]},
+  {n:'待投',cards:[
+    {logo:'腾',c:'#0aa1e0',role:'产品策划实习生',sub:'腾讯 · CSIG',tags:['深圳','校招']},
+    {logo:'阿',c:'#ff6a00',role:'产品实习生-淘天',sub:'阿里巴巴',tags:['杭州']}]},
+  {n:'已投',cards:[
+    {logo:'B',c:'#fb7299',role:'产品经理（社区方向）',sub:'哔哩哔哩',tags:['上海','投于 07-14']}]},
+  {n:'笔试',cards:[
+    {logo:'快',c:'#ff4906',role:'数据产品实习',sub:'快手',tags:['北京','07-20 笔试']}]},
+  {n:'一面',cards:[
+    {logo:'小',c:'#ff2741',role:'商业化产品实习',sub:'小红书',tags:['上海','待约']}]},
+  {n:'二面',cards:[]},
+  {n:'终面',cards:[
+    {logo:'字',c:'#1a1a1a',role:'AI 产品实习生',sub:'字节 · Seed',tags:['北京','07-25']}]},
+  {n:'Offer',cards:[
+    {logo:'青',c:'#f9b45f',role:'产品经理实习生',sub:'青芒校园（模拟）',tags:['已发','🎉']}]},
+  {n:'挂',reject:true,cards:[
+    {logo:'滴',c:'#ff7e00',role:'策略产品实习',sub:'滴滴',tags:['一面挂']}]}
+];
+const PARTS=[
+  {e:'📄',n:'简历',c:1},{e:'🎙',n:'自我介绍'},{e:'✍️',n:'文书'},{e:'🧱',n:'项目经历',c:1},
+  {e:'📖',n:'面经',c:1},{e:'🔬',n:'公司调研'},{e:'🎧',n:'面试记录'},{e:'📝',n:'复盘笔记'}
+];
+const PART_FILES={
+  '简历':[{k:'doc',n:'简历-青芒项目版.docx',sz:'45.3 KB',ago:'12 分钟前',gen:true}],
+  '项目经历':[{k:'md',n:'青芒-需求调研.md',sz:'8.1 KB',ago:'1 小时前',gen:true}],
+  '面经':[{k:'md',n:'字节-AI产品-面经.md',sz:'5.4 KB',ago:'9 小时前',gen:true}]
+};
+const FILECOLOR={doc:'var(--f-doc)',md:'var(--f-md)',json:'var(--f-json)',xls:'var(--f-xls)',ppt:'var(--f-ppt)',img:'var(--f-img)'};
+const FILELABEL={doc:'DOC',md:'MD',json:'JSON',xls:'XLS',ppt:'PPT',img:'IMG'};
+
+/* ============ 导航 ============ */
+function nav(v){
+  document.querySelectorAll('.railitem').forEach(b=>b.classList.toggle('on',b.dataset.nav===v));
+  ['chat','camp','jobs','library','settings'].forEach(x=>document.getElementById('view-'+x).classList.toggle('hidden',x!==v));
+  document.getElementById('history').classList.toggle('hidden',v!=='chat');
+  if(v==='camp')showCampList();
+}
+function toggleHistory(){document.getElementById('shell').classList.toggle('hist-collapsed')}
+
+/* ============ 对话 ============ */
+function renderQuick(){
+  document.getElementById('quickChips').innerHTML=QUICK.map(q=>
+    `<button class="qchip" onclick="pickSkill('${q.t}')">${q.ic} ${q.t}</button>`).join('');
+}
+function renderThreads(){
+  document.getElementById('historyList').innerHTML=THREADS.map((t,i)=>
+    `<button class="hitem ${i===6?'on':''}" onclick="openThread(${i})"><div class="ht">${t.t}</div><div class="hm">${t.m}</div></button>`).join('');
+}
+let activeSkill=null;
+function pickSkill(name){
+  activeSkill=name;
+  const chip=document.getElementById('askChip');
+  const map={'搜产品实习岗':'🔍 搜岗','改简历':'✨ 简历定制','查面经':'📖 查面经','模拟面试':'🎤 模拟面试','投递节奏':'📅 投递节奏','调研公司':'🔬 公司调研','收藏':'⭐ 收藏岗位','搜岗':'🔍 搜岗','简历定制':'✨ 简历定制','复盘':'📝 复盘','公司调研':'🔬 公司调研'};
+  document.getElementById('askChipTxt').textContent=map[name]||('⭐ '+name);
+  chip.classList.remove('hidden');
+  document.getElementById('skillBtnTxt').textContent=name;
+  document.getElementById('skillBtn').style.color='var(--brand-deep)';
+  nav('chat');
+  document.getElementById('askInput').focus();
+}
+function clearSkill(){activeSkill=null;document.getElementById('askChip').classList.add('hidden');document.getElementById('skillBtnTxt').textContent='技能';document.getElementById('skillBtn').style.color=''}
+function toggleSkillMenu(e){
+  e.stopPropagation();
+  const m=document.getElementById('skillMenu');
+  if(!m.classList.contains('hidden')){m.classList.add('hidden');return}
+  m.innerHTML='<div class="mt">选择技能</div>'+SKILLS.map(s=>
+    `<button class="menu-opt" onclick="pickSkill('${s.t}');document.getElementById('skillMenu').classList.add('hidden')"><span class="mi">${s.ic}</span>${s.t}<small>${s.d}</small></button>`).join('');
+  const r=e.currentTarget.getBoundingClientRect();
+  m.style.left=r.left+'px';m.style.bottom=(window.innerHeight-r.top+8)+'px';m.style.top='auto';
+  m.classList.remove('hidden');
+}
+document.addEventListener('click',()=>document.getElementById('skillMenu').classList.add('hidden'));
+
+function openThread(i){
+  if(i===6){renderConvJD();}
+  else {renderConvGeneric(THREADS[i].t);}
+}
+function showConv(html){
+  document.getElementById('chatEmpty').classList.add('hidden');
+  const c=document.getElementById('conv');c.classList.remove('hidden');c.innerHTML=html;
+  document.getElementById('chatScroll').scrollTop=0;
+}
+function renderConvGeneric(title){
+  showConv(`<div class="conv-head"><span class="ct">${title}</span><span class="pill done">已完成</span></div>
+  <div class="msg u"><div class="bub">${title}</div></div>
+  <div class="msg a"><div class="av"><img src="molly-icon.png"></div><div class="body"><div class="name">Molly</div>
+  <div class="rich">好的，我来帮你。这段对话在原型里作为占位演示——点左侧「查面经」那条可以看到一个完整的收藏岗位流程。</div></div></div>`);
+}
+function renderConvJD(){
+  showConv(`<div class="conv-head"><span class="ct">查面经</span><span class="pill done">已完成</span></div>
+  <div class="msg u"><div class="bub">产品实习生·开发者服务 北京 产品／产品经理 校招 职位 ID：A10357A … 字节跳动 Seed 团队　帮我收藏这个岗位</div></div>
+  <div class="msg a"><div class="av"><img src="molly-icon.png"></div><div class="body"><div class="name">Molly</div>
+    <div class="rich">已收藏到投递箱，状态设为「待投」。<br><br><b>已保存条目：</b>
+      <ul>
+        <li>字节跳动｜AI 产品实习生（商家经营方向）-抖音生活服务</li>
+        <li>位置：<code>投递箱/字节跳动-AI产品实习生（商家经营方向）-抖音生活服务/</code></li>
+        <li>文件：<code>meta.json</code> 、 <code>JD.md</code></li>
+      </ul>
+      我已把职位 ID、实习要求和标签放进了 <code>meta.json</code>，JD 原文已保存。链接、薪资、截止日期原文里没有明确给出，所以留空，没有编造。<br><br>
+      接下来你可以直接说：
+      <ul><li>「简历对着这个 JD 改」</li><li>「安排本周投递节奏」</li></ul>
+    </div>
+    <div class="file-cards">
+      <div class="fcard" onclick="toast('打开 JD.md','↗')"><span class="fi" style="background:var(--f-md)">MD</span><span class="fn">JD.md</span></div>
+      <div class="fcard" onclick="toast('打开 meta.json','↗')"><span class="fi" style="background:var(--f-json)">JSON</span><span class="fn">meta.json</span></div>
+    </div>
+  </div></div>`);
+  pickSkill('收藏');
+  document.getElementById('askInput').placeholder='把 JD 或链接粘过来，我帮你存进投递箱';
+}
+function newChat(){clearSkill();document.getElementById('conv').classList.add('hidden');document.getElementById('chatEmpty').classList.remove('hidden');document.getElementById('askInput').value='';document.getElementById('askInput').placeholder='和 Molly 说点什么…（@ 选技能 · 按住 Fn 键即可语音说话）'}
+function sendMsg(){
+  const el=document.getElementById('askInput');const v=el.value.trim();
+  if(!v&&!activeSkill){toast('说点什么吧','💬');return}
+  el.value='';
+  toast('已发送给 Molly'+(activeSkill?('（技能：'+activeSkill+'）'):''),'✈️');
+}
+
+/* ============ 训练营 ============ */
+function renderCamps(){
+  document.getElementById('campCards').innerHTML=CAMPS.map(c=>`
+    <div class="ccard ${c.live?'live':''}">
+      <div class="cc-hero ${c.hero}"><span class="cc-badge">${c.badge}</span>${c.emoji}</div>
+      <div class="cc-body">
+        <h3 class="cc-title">${c.title}</h3>
+        <p class="cc-desc">${c.desc}</p>
+        <div class="cc-tags">${c.tags.map((t,i)=>`<span class="cc-tag ${i===0?'lv1':''}">${t}</span>`).join('')}</div>
+        <button class="cc-btn ${c.live?'go':'soon'}" ${c.live?`onclick="openCampDetail()"`:''}>${c.btn}</button>
+      </div>
+    </div>`).join('');
+}
+function showCampList(){document.getElementById('campList').style.display='';document.getElementById('campDetail').style.display='none'}
+function openCampDetail(){
+  campStage=0;campDone=0;
+  document.getElementById('campList').style.display='none';
+  document.getElementById('campDetail').style.display='flex';
+  renderStage();
+}
+function renderCampMsg(m){
+  if(m[0]==='u')return `<div class="msg u"><div class="bub">${m[2]}</div></div>`;
+  return `<div class="msg a"><div class="av"><img src="molly-icon.png"></div><div class="body"><div class="name">${m[1]}</div><div class="rich">${m[2]}</div></div></div>`;
+}
+function goToStage(i){campStage=i;renderStage()}
+function submitStage(){
+  const last=CAMP_STAGES.length-1;
+  if(campStage<last){
+    campDone=Math.max(campDone,campStage+1);campStage++;renderStage();
+    toast('mentor 已通过，解锁「'+CAMP_STAGES[campStage].name+'」','✅');
+  }else{
+    campDone=CAMP_STAGES.length;renderStage();
+    toast('实习结项！HR 评价已生成，项目经历已写进简历','🎓');
+  }
+}
+function renderStage(){
+  const S=CAMP_STAGES[campStage], last=CAMP_STAGES.length-1;
+  document.getElementById('stageBar').innerHTML=CAMP_STAGES.map((s,i)=>{
+    const cls=i<campDone?'done':i===campStage?'active':'';
+    return `<div class="stage-node ${cls}" style="cursor:pointer" onclick="goToStage(${i})"><span class="sn-dot">${i<campDone?'✓':(i+1)}</span>${STAGES[i]}</div>`+(i<last?'<span class="stage-sep"></span>':'');
+  }).join('');
+  const isFinal=campStage===last;
+  document.getElementById('stageBadge').textContent=isFinal?'结项':('第 '+(campStage+1)+'/4 关');
+  document.getElementById('stageTaskName').textContent=S.name;
+  document.getElementById('stageTaskDesc').textContent=S.desc;
+  const btn=document.getElementById('submitBtn');
+  btn.textContent=isFinal?'🎓 完成结项':(campStage<campDone?'本关已通过 · 下一关 →':'✓ 提交本关 / 解锁下一关');
+  document.getElementById('campChat').innerHTML=S.chat.map(renderCampMsg).join('');
+  document.getElementById('campChat').scrollTop=0;
+  document.getElementById('afName').textContent=S.af;
+  document.getElementById('afBody').innerHTML=S.art;
+  const ci=document.getElementById('campInput');if(ci)ci.placeholder='和 '+S.mentor.split(' ')[0]+' 说点什么…';
+}
+
+/* ============ 投递 ============ */
+function renderBoard(){
+  document.getElementById('board').innerHTML=KANBAN.map(col=>`
+    <div class="kcol ${col.reject?'reject':''}">
+      <div class="kcol-head"><span class="kn">${col.n}</span><span class="kc">${col.cards.length}</span></div>
+      <div class="kcol-body">
+        ${col.cards.map(c=>`
+          <div class="jcard" onclick="toast('打开「${c.role}」详情抽屉','🗂')">
+            <div class="jco"><span class="jlogo" style="background:${c.c};color:${c.cc||'#fff'}">${c.logo}</span>
+              <div><div class="jrole">${c.role}</div><div class="jc-sub">${c.sub}</div></div></div>
+            <div class="jmeta">${c.tags.map(t=>`<span class="jtag">${t}</span>`).join('')}</div>
+          </div>`).join('')}
+        <div class="kadd" onclick="toast('添加岗位到「${col.n}」','＋')">＋ 加一个</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ============ 资料库 ============ */
+let curPart='简历';
+function renderLib(){
+  document.getElementById('libParts').innerHTML=PARTS.map(p=>`
+    <button class="part ${p.n===curPart?'on':''}" onclick="pickPart('${p.n}')">
+      <span class="pe">${p.e}</span><span class="pn">${p.n}</span>
+      ${p.c?`<span class="pcount">${p.c}</span>`:'<span class="pdot">·</span>'}
+    </button>`).join('');
+  const files=PART_FILES[curPart]||[];
+  const part=PARTS.find(p=>p.n===curPart);
+  document.getElementById('libFiles').innerHTML=`
+    <div class="lib-files-head">
+      <span class="lf-icon">${part.e}</span>
+      <div class="lf-t"><b>${curPart}</b><div>${files.length} 个文件${files.length?' · 最新更新 '+files[0].ago:''}</div></div>
+      <button class="lf-open" onclick="toast('打开文件夹','📂')">📂 打开文件夹</button>
+    </div>
+    ${files.length?files.map(f=>`
+      <div class="frow" onclick="toast('打开 ${f.n}','↗')">
+        <span class="fi" style="background:${FILECOLOR[f.k]}">${FILELABEL[f.k]}</span>
+        <div class="fmeta"><div class="fnm">${f.n} ${f.gen?'<span class="gen-tag">✨ Molly 生成</span>':''}</div><div class="fsz">${f.sz} · ${f.ago}</div></div>
+      </div>`).join('')
+      :'<div class="lib-empty">这个分区还没有文件<br>完成对应任务后，Molly 会把产出沉淀到这里</div>'}`;
+}
+function pickPart(n){curPart=n;renderLib()}
+
+/* ============ 设置 ============ */
+let curTab='general';
+function setTab(t){curTab=t;document.querySelectorAll('.stab').forEach(b=>b.classList.toggle('on',b.dataset.stab===t));renderSet()}
+function renderSet(){
+  const el=document.getElementById('setContent');
+  if(curTab==='general'){
+    el.innerHTML=`
+      <div class="sgroup"><h3>ShrimpAI API Key</h3><p class="sd">在 ShrimpAI 平台获取 Key，只保存在本机，不会上传。</p>
+        <div class="skey"><input type="password" placeholder="sk-..."><button class="sbtn" onclick="toast('Key 已保存','✓')">保存</button></div></div>
+      <div class="sgroup"><h3>产出保存位置</h3><p class="sd">简历、投递箱、资料库都存在这里。</p>
+        <div class="srow"><span class="spath">~/Molly</span><button class="sbtn" onclick="toast('打开','↗')">↗ 打开</button><button class="sbtn" onclick="toast('更换目录','📂')">📂 更换</button></div></div>
+      <div class="sgroup"><h3>界面语言</h3><div class="locked">中文（简体）<span class="chip-soon">敬请期待</span></div></div>`;
+  }else if(curTab==='model'){
+    el.innerHTML=`
+      <div class="sgroup"><h3>默认效果</h3><p class="sd">全部通过 ShrimpAI 网关计费，你不用管 key。</p>
+      <div class="tier-picker">
+        <div class="tier"><div class="tn">✦ 优质</div><div class="tone">复杂任务、深度分析</div><div class="tmodel">claude-opus-4-8</div></div>
+        <div class="tier on"><div class="tn">◇ 标准 <span class="badge-rec">推荐</span></div><div class="tone">日常对话，又快又好</div><div class="tmodel">gpt-5.5</div></div>
+        <div class="tier"><div class="tn">⚡ 极速</div><div class="tone">快速响应、高效办公</div><div class="tmodel">gpt-5.4</div></div>
+      </div></div>`;
+    el.querySelectorAll('.tier').forEach(t=>t.onclick=()=>{el.querySelectorAll('.tier').forEach(x=>x.classList.remove('on'));t.classList.add('on');toast('默认效果已更新','✓')});
+  }else{
+    el.innerHTML=`
+      <div class="sgroup"><h3>Molly · 求职搭子</h3><p class="sd">版本 <b>v1.0.0</b> · 面向校园求职的本地 AI Agent · 由 ShrimpAI 提供</p></div>
+      <div class="sgroup"><h3>反馈与支持</h3><div style="display:flex;gap:8px"><button class="sbtn">加入用户群</button><button class="sbtn">意见反馈</button></div></div>`;
+  }
+}
+
+/* ============ Toast ============ */
+let toastT;
+function toast(msg,icon){
+  let el=document.getElementById('toast');
+  if(!el){el=document.createElement('div');el.id='toast';el.className='toast';document.body.appendChild(el)}
+  el.textContent=(icon?icon+'  ':'')+msg;el.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2000);
+}
+
+/* ============ 初始化 ============ */
+(function greet(){
+  const h=new Date().getHours();
+  document.getElementById('greeting').textContent=(h<6?'夜深了':h<12?'早上好':h<14?'中午好':h<18?'下午好':h<23?'晚上好':'夜深了')+'，我是 Molly';
+})();
+renderQuick();renderThreads();renderCamps();renderBoard();renderLib();renderSet();
+</script>
+</body>
+</html>

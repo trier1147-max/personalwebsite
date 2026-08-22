@@ -61,9 +61,9 @@ export const siteConfig = {
 
   // Projects data (portfolio-first order)
   projects: [
-    { id: 'proj5', image: '/images/project-working-agent.png', github: null, live: null, imagePortrait: false, requiresProxy: false }, // 工作管家
-    { id: 'proj2', image: null, github: null, live: null, imagePortrait: false, requiresProxy: false }, // Molly 求职搭子
+    { id: 'proj2', image: null, github: null, live: '/demos/molly/index.html', imagePortrait: false, requiresProxy: false }, // Molly 求职搭子
     { id: 'proj1', image: '/images/project-yangmenu.png', github: null, live: 'https://yangmenu-h5.vercel.app/', imagePortrait: true, requiresProxy: true }, // 洋菜单
+    { id: 'proj5', image: '/images/project-working-agent.png', github: null, live: null, imagePortrait: false, requiresProxy: false }, // 工作管家
     { id: 'proj3', image: '/images/project-generator.png', github: null, live: null, imagePortrait: true, requiresProxy: false }, // 小红书内容生成器
     { id: 'proj4', image: '/images/project-federated.png', github: null, live: null, imagePortrait: false, requiresProxy: false }, // 联邦学习
   ],
