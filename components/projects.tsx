@@ -99,6 +99,8 @@ function ProjectContent({
   githubLabel,
   live,
   liveLabel,
+  requiresProxy,
+  proxyHint,
 }: {
   item: { name: string; status: string | null; oneLiner: string; role: string; period?: string; tech: string[]; description: string; highlights: string[] }
   hasStatus: boolean
@@ -108,6 +110,8 @@ function ProjectContent({
   githubLabel: string
   live: string | null
   liveLabel: string
+  requiresProxy: boolean
+  proxyHint: string
 }) {
   return (
     <div className="flex-1 min-w-0">
@@ -115,9 +119,12 @@ function ProjectContent({
         <div className="flex items-center gap-2 flex-wrap">
           <h3 className="heading-3">{item.name}</h3>
           {live && (
-            <a href={live} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-blue-600 hover:text-blue-500 underline underline-offset-4 decoration-1 transition-colors shrink-0">
-              {liveLabel} →
-            </a>
+            <span className="inline-flex items-center gap-2 flex-wrap">
+              <a href={live} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-blue-600 hover:text-blue-500 underline underline-offset-4 decoration-1 transition-colors shrink-0">
+                {liveLabel} →
+              </a>
+              {requiresProxy && <span className="text-xs text-amber-700">{proxyHint}</span>}
+            </span>
           )}
         </div>
         {hasStatus && (
@@ -177,7 +184,10 @@ export function Projects({ dict }: ProjectsProps) {
             {siteConfig.projects.map((project) => {
               const item = dict.projects.items[project.id as keyof typeof dict.projects.items]
               if (!item) return null
-              const hasStatus = item.status === 'inDev'
+              const hasStatus = item.status === 'inDev' || item.status === 'launching'
+              const statusLabel = item.status === 'launching'
+                ? dict.projects.statusLaunching
+                : dict.projects.statusInDev
 
               // 竖版截图：横跨两列，左图右文
               if (project.imagePortrait) {
@@ -198,12 +208,14 @@ export function Projects({ dict }: ProjectsProps) {
                       <ProjectContent
                         item={item as Parameters<typeof ProjectContent>[0]['item']}
                         hasStatus={hasStatus}
-                        statusLabel={dict.projects.statusInDev}
+                        statusLabel={statusLabel}
                         roleLabel={dict.projects.roleLabel}
                         github={project.github}
                         githubLabel={dict.projects.viewOnGitHub}
                         live={project.live ?? null}
                         liveLabel={dict.projects.viewLive}
+                        requiresProxy={project.requiresProxy}
+                        proxyHint={dict.projects.proxyHint}
                       />
                     </div>
                   </motion.article>
@@ -227,12 +239,14 @@ export function Projects({ dict }: ProjectsProps) {
                   <ProjectContent
                     item={item as Parameters<typeof ProjectContent>[0]['item']}
                     hasStatus={hasStatus}
-                    statusLabel={dict.projects.statusInDev}
+                    statusLabel={statusLabel}
                     roleLabel={dict.projects.roleLabel}
                     github={project.github}
                     githubLabel={dict.projects.viewOnGitHub}
                     live={project.live ?? null}
                     liveLabel={dict.projects.viewLive}
+                    requiresProxy={project.requiresProxy}
+                    proxyHint={dict.projects.proxyHint}
                   />
                 </motion.article>
               )

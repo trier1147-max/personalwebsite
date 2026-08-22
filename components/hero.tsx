@@ -130,39 +130,48 @@ const DecorativeElements = () => (
 
 export function Hero({ dict }: HeroProps) {
   return (
-    <section id="contact" className="py-16 md:py-20 relative">
+    <section id="contact" className="pt-24 pb-7 md:pt-24 md:pb-8 relative">
       <DecorativeElements />
 
       <div className="container-custom w-full relative z-10">
-        <div className="max-w-4xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-10 items-center">
           <motion.div
-            className="w-full"
+            className="lg:col-span-7"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            <motion.p variants={itemVariants} className="text-base text-muted mb-3 font-medium">
+            <motion.p variants={itemVariants} className="text-sm text-muted mb-2 font-medium">
               {dict.hero.name} · {dict.hero.tagline}
             </motion.p>
 
-            <motion.h1 variants={itemVariants} className="heading-1 mb-5 max-w-3xl">
+            <motion.h1
+              variants={itemVariants}
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.08] text-foreground mb-3 max-w-3xl"
+            >
               {dict.hero.workTitle}
             </motion.h1>
 
-            <motion.p variants={itemVariants} className="text-lg text-secondary leading-relaxed mb-2">
+            <motion.p variants={itemVariants} className="text-base text-secondary leading-relaxed max-w-3xl">
               {dict.hero.intro}
             </motion.p>
+          </motion.div>
 
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-2 mb-4">
+          <motion.div
+            className="lg:col-span-5"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div variants={itemVariants} className="flex flex-wrap gap-2 mb-3">
               {(dict.hero.highlights as string[]).map((highlight: string, index: number) => (
-                <span key={index} className="tag text-sm">
+                <span key={index} className="tag text-xs">
                   {highlight}
                 </span>
               ))}
             </motion.div>
 
-            {/* Portfolio-first CTA */}
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-4">
+            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-3 mb-3">
               <a href="#projects" className="btn btn-primary">
                 {dict.hero.projectCta}
               </a>
@@ -171,8 +180,7 @@ export function Hero({ dict }: HeroProps) {
               </a>
             </motion.div>
 
-            {/* Social Cards */}
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-2 mb-6">
+            <motion.div variants={itemVariants} className="flex flex-wrap gap-2 mb-3">
               <a
                 href={siteConfig.social.github}
                 target="_blank"
@@ -193,8 +201,7 @@ export function Hero({ dict }: HeroProps) {
               </a>
             </motion.div>
 
-            {/* Contact Info Row */}
-            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-5 text-sm text-muted">
+            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
               <a href={`mailto:${dict.contact.email}`} className="hover:text-foreground transition-colors underline underline-offset-4 decoration-1">
                 {dict.contact.email}
               </a>
@@ -202,9 +209,7 @@ export function Hero({ dict }: HeroProps) {
                 <span>{dict.contact.phone}</span>
               )}
             </motion.div>
-
           </motion.div>
-
         </div>
       </div>
     </section>

@@ -108,10 +108,27 @@
     "expand": "查看详情",
     "collapse": "收起",
     "statusInDev": "开发中",
+    "statusLaunching": "即将上线",
     "roleLabel": "我的角色",
     "viewOnGitHub": "在 GitHub 查看",
     "viewLive": "在线体验",
+    "proxyHint": "大陆访问可能需要梯子",
     "items": {
+      "proj5": {
+        "name": "工作管家 · Working Agent",
+        "oneLiner": "面向普通白领、学生和内容创作者的交付型桌面 Agent，把复杂 AI 能力变成可直接使用的成果文件",
+        "role": "产品定义 · 场景体系 · 交互设计 · AI Coding 原型开发",
+        "period": "2026.06 - 至今",
+        "tech": ["Tauri 2", "React 19", "TypeScript", "Agent Skills", "Codex Core"],
+        "description": "将面向程序员的 Agent 内核重构为普通用户一看就会用的桌面工作台：用户选择场景、上传材料并描述需求，系统展示任务进度，最终交付可编辑的 PPT、Excel、Word 等成果文件。",
+        "highlights": [
+          "用户与产品定位：聚焦职场办公、内容创作、学习求职三类人群，隐藏终端、代码和模型参数，只保留「任务→进度→成果」主链路",
+          "场景与 Skill 体系：首发设计汇报 PPT、Excel 分析、周报、会议纪要、小红书文案、一稿多平台、短视频脚本、简历优化等 **8** 个 P0 Skills",
+          "桌面产品落地：基于 Tauri + React 构建工作台、历史对话、技能库、文件上传、任务进度与成果文件管理，并复用 Codex Core 执行能力",
+          "PPT 交付链路：设计结构化 TaskSpec→DeckSpec→Python 渲染与自动质检流程，保障页数约束、事实数据、可编辑图表和文件可重新打开"
+        ],
+        "status": "launching"
+      },
       "proj1": {
         "name": "洋菜单（YangMenu）",
         "oneLiner": "帮助中国留学生和游客看懂海外餐厅菜单的微信小程序",

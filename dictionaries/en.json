@@ -108,10 +108,27 @@
     "expand": "View details",
     "collapse": "Collapse",
     "statusInDev": "In development",
+    "statusLaunching": "Launching soon",
     "roleLabel": "Role",
     "viewOnGitHub": "View on GitHub",
     "viewLive": "Try it online",
+    "proxyHint": "May require a proxy in mainland China",
     "items": {
+      "proj5": {
+        "name": "Working Agent",
+        "oneLiner": "A delivery-oriented desktop Agent for professionals, students, and creators that turns AI capabilities into usable files",
+        "role": "Product Definition · Scenario System · Interaction Design · AI Coding Prototype",
+        "period": "Jun 2026 - Present",
+        "tech": ["Tauri 2", "React 19", "TypeScript", "Agent Skills", "Codex Core"],
+        "description": "Reframed a developer-oriented Agent runtime as a desktop workspace for mainstream users: choose a scenario, upload source material, describe the task, follow execution progress, and receive editable PPT, Excel, and Word deliverables.",
+        "highlights": [
+          "Product positioning: focused on work, content creation, and job-search scenarios while hiding terminals, code, and model settings behind a Task → Progress → Deliverable flow",
+          "Scenario and Skill system: designed **8** launch-critical Skills covering presentations, Excel analysis, weekly reports, meeting notes, social content, multi-platform rewriting, video scripts, and resume tailoring",
+          "Desktop execution: built the workspace, history, Skill library, file attachments, progress states, and artifact management with Tauri and React while reusing Codex Core",
+          "Presentation delivery lane: designed a structured TaskSpec → DeckSpec → Python rendering and automated QA pipeline for page constraints, grounded facts, editable charts, and reopen validation"
+        ],
+        "status": "launching"
+      },
       "proj1": {
         "name": "YangMenu",
         "oneLiner": "WeChat mini-program helping Chinese students and travelers understand overseas restaurant menus",
