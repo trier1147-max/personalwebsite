@@ -112,7 +112,7 @@
     "roleLabel": "Role",
     "viewOnGitHub": "View on GitHub",
     "viewLive": "Try it online",
-    "proxyHint": "May require a proxy in mainland China",
+    "proxyHint": "(may require a proxy)",
     "items": {
       "proj5": {
         "name": "Working Agent",
@@ -182,6 +182,21 @@
           "Integrated Boosting into the federated framework with an adaptive Gaussian differential privacy mechanism that tunes noise strength dynamically",
           "Applied knowledge distillation to compress the ensemble model and reduce client–server communication overhead",
           "Validated across multiple datasets under high data heterogeneity: significantly faster convergence than FedAvg, with strong model accuracy retained after applying differential privacy"
+        ],
+        "status": null
+      },
+      "proj6": {
+        "name": "FLIPPED Music",
+        "oneLiner": "A music product concept centered on emotional encounters, combining listening, social discovery, AI music generation, and interaction",
+        "role": "Product Strategy · User Insight · AI Music Creation · Feature Design",
+        "period": "Early undergraduate project",
+        "tech": ["Music Product", "Social Mechanics", "AI Generation", "Interaction Design"],
+        "description": "A concept exploring how a music product can extend beyond playback into content, social discovery, and creation through Familiar Mode, Music Square, Instrument Play, and hands-on AI-generated music and songwriting.",
+        "highlights": [
+          "Product positioning: reorganized listening, discovery, and social interaction around emotional moments in music",
+          "Core concepts: recommendation feed, music square, instrument interaction, AI songs, and virtual identity",
+          "AI music creation: generated original songs around user keywords and emotions, then embedded them into the product experience",
+          "Complete proposal: covered user insight, competitor research, feature design, and monetization across 42 pages"
         ],
         "status": null
       }

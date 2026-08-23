@@ -109,7 +109,7 @@ function ProjectContent({
   github: string | null
   githubLabel: string
   live: string | null
-  liveLabel: string
+  liveLabel?: string
   requiresProxy: boolean
   proxyHint: string
 }) {
@@ -121,7 +121,7 @@ function ProjectContent({
           {live && (
             <span className="inline-flex items-center gap-2 flex-wrap">
               <a href={live} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-blue-600 hover:text-blue-500 underline underline-offset-4 decoration-1 transition-colors shrink-0">
-                {liveLabel} →
+                {liveLabel ?? '在线体验'} →
               </a>
               {requiresProxy && <span className="text-xs text-amber-700">{proxyHint}</span>}
             </span>
@@ -213,7 +213,7 @@ export function Projects({ dict }: ProjectsProps) {
                         github={project.github}
                         githubLabel={dict.projects.viewOnGitHub}
                         live={project.live ?? null}
-                        liveLabel={dict.projects.viewLive}
+                        liveLabel={project.liveLabel ?? dict.projects.viewLive}
                         requiresProxy={project.requiresProxy}
                         proxyHint={dict.projects.proxyHint}
                       />
@@ -244,7 +244,7 @@ export function Projects({ dict }: ProjectsProps) {
                     github={project.github}
                     githubLabel={dict.projects.viewOnGitHub}
                     live={project.live ?? null}
-                    liveLabel={dict.projects.viewLive}
+                    liveLabel={project.liveLabel ?? dict.projects.viewLive}
                     requiresProxy={project.requiresProxy}
                     proxyHint={dict.projects.proxyHint}
                   />
