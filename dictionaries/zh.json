@@ -127,7 +127,7 @@
           "桌面产品落地：基于 Tauri + React 构建工作台、历史对话、技能库、文件上传、任务进度与成果文件管理，并复用 Codex Core 执行能力",
           "PPT 交付链路：设计结构化 TaskSpec→DeckSpec→Python 渲染与自动质检流程，保障页数约束、事实数据、可编辑图表和文件可重新打开"
         ],
-        "status": "launching"
+        "status": null
       },
       "proj1": {
         "name": "洋菜单（YangMenu）",

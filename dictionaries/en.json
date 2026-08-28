@@ -127,7 +127,7 @@
           "Desktop execution: built the workspace, history, Skill library, file attachments, progress states, and artifact management with Tauri and React while reusing Codex Core",
           "Presentation delivery lane: designed a structured TaskSpec → DeckSpec → Python rendering and automated QA pipeline for page constraints, grounded facts, editable charts, and reopen validation"
         ],
-        "status": "launching"
+        "status": null
       },
       "proj1": {
         "name": "YangMenu",
